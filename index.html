@@ -1,0 +1,70 @@
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        <style>
+        </style>
+        <meta charset="UFT-8">
+        <meta http-equiv="X-UA-Compatible" content ="IE=edge">
+        <title>index</title>
+    </head>
+    <body>
+        <div class="head">
+		<nav class="navbar">
+		<ul>
+            <li><a href="">ClearRoute</a></li>
+            <li><a href="">Route History</a></li>
+            <li><a href="">Saved Routes</a></li>
+            <li><a href="">Vehicles</a></li>
+        </ul>
+		</nav>
+		</div>
+        <div>
+            <table>
+                <tr>
+                    <td><h1>Route Search</h1></td>
+                </tr>
+                <tr>
+                    <td>Height</td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="height" size="50"></td>
+                </tr>
+                <tr>
+                    <td>Width</td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="width" size="50"></td>
+                </tr>
+                <tr>
+                    <td>Start</td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="start" size="50"></td>
+                </tr>
+                <tr>
+                    <td>End</td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="end" size="50"></td>
+                </tr>
+                <tr>
+                    <td>Save Vehicle</td>
+                </tr>
+                <tr>
+                    <td><select>
+                        <option value="route">route1</option>
+                        <option value="route">route2</option>
+                        <option value="route">route3</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td><button>Get Directions</button></td>
+                </tr>
+            </table>
+        </div>
+        <script src="script.js">
+        </script>
+
+    </body>
+</html>
