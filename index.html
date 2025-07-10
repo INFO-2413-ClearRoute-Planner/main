@@ -1,72 +1,103 @@
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-        <link rel="stylesheet" href="style.css">
-        <style>
-        </style>
-        <meta charset="UFT-8">
-        <meta http-equiv="X-UA-Compatible" content ="IE=edge">
-        <title>index</title>
-    </head>
-    <body>
-        <div class="head">
-		<nav class="navbar">
-		<ul>
-            <li><a href="">ClearRoute</a></li>
-            <li><a href="">Route History</a></li>
-            <li><a href="">Saved Routes</a></li>
-            <li><a href="">Vehicles</a></li>
-            <li style="float: right;"><a href=""></a></li>
-        </ul>
-		</nav>
-		</div>
-        <div class="section">
-            <table>
-                <tr>
-                    <td><h1>Route Search</h1></td>
-                </tr>
-                <tr>
-                    <td>Height</td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="height" size="50"></td>
-                </tr>
-                <tr>
-                    <td>Width</td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="width" size="50"></td>
-                </tr>
-                <tr>
-                    <td>Start</td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="start" size="50"></td>
-                </tr>
-                <tr>
-                    <td>End</td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="end" size="50"></td>
-                </tr>
-                <tr>
-                    <td>Save Vehicle</td>
-                </tr>
-                <tr>
-                    <td><select>
+
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+    </style>
+    <meta charset="UFT-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>index</title>
+</head>
+
+
+<body>
+    <header class="header">
+        <div class="top-bar">
+            <div class="top-bar_content">
+                <a href="#" class="title">
+                    <span>ClearRoute</span>
+                </a>
+                <nav class="navbar">
+                    <ul class="nav_list">
+                        <li class="nav_item">
+                            <a href="#" class="nav_link">Route History</a>
+                        </li>
+                        <li class="nav_item">
+                            <a href="#" class="nav_link">Saved Route</a>
+                        </li>
+                        <li class="nav_item">
+                            <a href="#" class="nav_link">Vehicles</a>
+                        </li>
+                    </ul>
+                </nav>
+                <a href="#" class="usericon">
+                    <img src="circle-user-regular.svg" alt="userlogo" class="userlogo_img">
+                </a>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="section">
+        <table>
+            <tr>
+                <td>
+                    <h1>Route Search</h1>
+                </td>
+            </tr>
+            <tr>
+                <td>Height</td>
+            </tr>
+            <tr>
+                <td><input type="text" id="height" size="50"></td>
+            </tr>
+            <tr>
+                <td>Width</td>
+            </tr>
+            <tr>
+                <td><input type="text" id="width" size="50"></td>
+            </tr>
+            <tr>
+                <td>Start</td>
+            </tr>
+            <tr>
+                <td><input type="text" id="start" size="50"></td>
+            </tr>
+            <tr>
+                <td>End</td>
+            </tr>
+            <tr>
+                <td><input type="text" id="end" size="50"></td>
+            </tr>
+            <tr>
+                <td>Save Vehicle</td>
+            </tr>
+            <tr>
+                <td><select>
                         <option value="route">route1</option>
                         <option value="route">route2</option>
                         <option value="route">route3</option>
                     </select></td>
-                </tr>
-                <tr>
-                    <td><button>Get Directions</button></td>
-                </tr>
-            </table>
-        </div>
-        <script src="script.js">
-        </script>
+            </tr>
+            <tr>
+                <td><button>Get Directions</button></td>
+            </tr>
+        </table>
+    </div>
+    <script src="script.js">
+    </script>
 
-    </body>
+</body>
+
 </html>
