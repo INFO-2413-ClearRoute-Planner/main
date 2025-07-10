@@ -1,0 +1,36 @@
+body{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.head
+{position: fixed; 
+width: 100%;
+top: 0; 
+left: 0;
+}
+.navbar{position: sticky;
+top: 0;
+margin: 0 auto;
+overflow: hidden;
+opacity: 0.7;
+}
+ul{
+list-style-type: none;
+margin: 0;
+padding: 0;
+overflow: hidden;
+background: black;
+}
+li {
+    float: left;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 16px 20px;
+    text-decoration: none;
+}
+.navbar li a:hover{
+background-color: #008000;
+color: white;
+}
