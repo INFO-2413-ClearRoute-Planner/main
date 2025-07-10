@@ -16,22 +16,23 @@ ul {
 body {
     background-color: #e8f0f7;
     font-family: 'Inter', sans-serif;
-    height: 5000px;}
+    height: 5000px;
+}
 
-/*OTHER STYLES*/
+/*HEADER STYLES*/
 .header {
     position: fixed; 
     width: 100%;
-    top: 0; 
-    left: 0;
 }
 
 .top-bar {
-    background-color: rgb(19, 22, 26);
-    
+    background-color: rgb(19, 22, 26, 0.80);
 }
 .top-bar_content {
-    height: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+    height: 50px;
     display: flex;
     color: #fff;
     font-size: 12px;
@@ -66,6 +67,7 @@ body {
     opacity: 0.7;
 }
 .nav_item {
+    color: #fff;
 
 }
 .nav_list {
@@ -79,4 +81,86 @@ body {
 .nav_link:hover,
 .navlink:focus{
     color: rgba(255, 255, 255, 1);
+}
+
+/*BODY STYLE*/
+
+.container {
+    min-height: 500px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#box1 {
+    align-self: center;
+}
+.box {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 200px;
+    
+}
+.entity {
+    color: #fff;
+    font-size: 10px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    padding: 5px 10px;
+}
+.entry {
+    padding: 10px 10px;
+    background-color: rgba(54, 57, 62, 0.6);
+
+}
+.entry_list {
+    color: #fff;
+    display: flex;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 2px;
+ }
+
+ .entry_input {
+    
+ }
+.btn {
+    color: white;
+    font-size: 12;
+    font-weight: 500;
+    background-color: #1e90ff;
+    padding: 8px 14px;
+    text-align: center;
+    transition: all 0.2s;
+}
+.btn:hover {
+    background-color: #73c2fb;
+}
+
+/*Media device setting*/
+@media (max-width: 650px) {
+    .navbar {
+        position: fixed;
+        top: 50px;
+        left: 0;
+        background-color: rgb(19, 22, 26);
+        width: 100%;
+        padding: 10px 0 25px;
+    }
+
+    .nav_list {
+        flex-direction: column;
+        align-items: center;
+        row-gap: 20px;
+    }
+
+    .nav_link {
+        font-size: 12px;
+    }
 }
