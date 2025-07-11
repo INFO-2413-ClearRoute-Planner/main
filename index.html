@@ -50,51 +50,40 @@
 
     <div class="container">
         <div class="box box1">
-            <table class="entry">
-            <tr>
-                <td class="entity">
+            <form id="form" action="/">
+                <div class="entity">
                     <h1>Route Search</h1>
-                </td>
-            </tr>
-            <tr>
-                <td class="entry_list">Height</td>
-            </tr>
-            <tr>
-                <td class="entry_input"><input type="text" id="height" size="20"></td>
-            </tr>
-            <tr>
-                <td class="entry_list">Width</td>
-            </tr>
-            <tr>
-                <td class="entry_input"><input type="text" id="width" size="20"></td>
-            </tr>
-            <tr>
-                <td class="entry_list">Start</td>
-            </tr>
-            <tr>
-                <td class="entry_input"><input type="text" id="start" size="20"></td>
-            </tr>
-            <tr>
-                <td class="entry_list">End</td>
-            </tr>
-            <tr>
-                <td class="entry_input"><input type="text" id="end" size="20"></td>
-            </tr>
-            <tr>
-                <td class="entry_list">Saved Vehicle</td>
-            </tr>
-            <tr>
-                <td class="entry_input"><select>
+                </div>
+                <div class="inputs">
+                    <label for="height">Height</label>
+                    <input id="height" name="height" type="text" size="20">
+                </div>
+                <div class="inputs">
+                    <label for="weight">Weight</label>
+                    <input id="weight" name="weight" type="text" size="20">
+                </div>
+                <div class="inputs">
+                    <label for="width">Width</label>
+                    <input id="width" name="width" type="text" size="20">
+                </div>
+                <div class="inputs">
+                    <label for="start">Start</label>
+                    <input id="start" name="start" type="text" size="20">
+                </div>
+                <div class="inputs">
+                    <label for="end">End</label>
+                    <input id="end" name="end" type="text" size="20">
+                </div>
+                <div class="inputs">
+                    <label for="vehicle">Saved Vehicles</label>
+                    <select>
                         <option value="route">route1</option>
                         <option value="route">route2</option>
                         <option value="route">route3</option>
-                    </select></td>
-            </tr>
-            <tr>
-                <td href="#" class="btn">Get Directions</td>
-            </tr>
-        </table>
-
+                    </select>
+                </div>
+                <button type="button" class="btn">Get Directions</button>
+            </form>
         </div>
         <div class="box box2"></div>
         <div class="box box3"></div>
