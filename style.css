@@ -23,6 +23,7 @@ body {
 .header {
     position: fixed; 
     width: 100%;
+    z-index: 2;
 }
 
 .top-bar {
@@ -93,9 +94,11 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-top: auto;
 }
-#box1 {
+.box1 {
     align-self: center;
+    z-index: 2;
 }
 .box {
     flex-grow: 1;
@@ -172,4 +175,14 @@ body {
     .nav_link {
         font-size: 12px;
     }
+}
+
+/* MAP STYLING */
+#map {
+    position: fixed;         /* Make map fill the viewport */
+    z-index: 1;             /* Send it behind all UI */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }

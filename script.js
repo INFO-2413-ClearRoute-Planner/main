@@ -8,15 +8,43 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 
 //Marker Handling 
-let currentMarker = null;
+let startMarker = null;
+let endMarker = null;
 
 map.on('click', function(e){
-    if(currentMarker) {map.removeLayer(currentMarker);}
-
+    //Receive Coordinates on click
     var coord = e.latlng.toString().split(',');
     var lat = coord[0].split('(');
     var lng = coord[1].split(')');
 
-    console.log("You clicked the map at latitude: " + lat[1] + " and longitude:" + lng[0]);
-    currentMarker = L.marker([lat[1], lng[0]]).addTo(map);
+    //Set up Marker
+    if(startMarker == null)
+    {
+        startMarker = L.marker([lat[1], lng[0]]).addTo(map);
+        document.getElementById("start").textContent = coord;
+    }
+    else if(endMarker == null) 
+    {
+        endMarker = L.marker([lat[1], lng[0]]).addTo(map);
+        document.getElementById("end").textContent = coord;
+    }
 });
+
+document.getElementById("clearDir").onclick = clearDirection
+
+function clearDirection()
+{
+    if(startMarker) 
+    {
+        map.removeLayer(startMarker);
+        startMarker = null;
+        document.getElementById("start").textContent = "";
+    }
+
+    if(endMarker) 
+    {
+        map.removeLayer(endMarker);
+        endMarker = null;
+        document.getElementById("end").textContent = "";
+    }
+}
