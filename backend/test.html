@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ClearRoute Test Frontend</title>
+</head>
+<body>
+  <h1>ClearRoute API Tester</h1>
+
+  <h2>Register</h2>
+  <input id="regName" placeholder="Name">
+  <input id="regEmail" placeholder="Email">
+  <input id="regPass" placeholder="Password" type="password">
+  <button onclick="register()">Register</button>
+
+  <h2>Login</h2>
+  <input id="logEmail" placeholder="Email">
+  <input id="logPass" placeholder="Password" type="password">
+  <button onclick="login()">Login</button>
+  <p>Token: <span id="tokenDisplay"></span></p>
+
+  <h2>Add Vehicle</h2>
+  <input id="vehMake" placeholder="Make">
+  <input id="vehModel" placeholder="Model">
+  <input id="vehHeight" placeholder="Height (m)" type="number" step="0.01">
+  <input id="vehWeight" placeholder="Weight (kg)" type="number">
+  <button onclick="addVehicle()">Add Vehicle</button>
+
+  <h2>Get Vehicles</h2>
+  <button onclick="getVehicles()">Fetch Vehicles</button>
+
+  <h2>Create Route</h2>
+  <input id="start" placeholder="Start Location">
+  <input id="end" placeholder="End Location">
+  <button onclick="createRoute()">Create Route</button>
+
+  <h2>Get Routes</h2>
+  <button onclick="getRoutes()">Fetch Routes</button>
+
+  <h2>Raw Output</h2>
+  <pre id="output" style="background:#eee; padding:10px;"></pre>
+  <h2>Save User Location</h2>
+<input id="ulLocationId" placeholder="Location ID">
+<input id="ulName" placeholder="Name">
+<button onclick="addUserLocation()">Save Location</button>
+
+<h2>Delete User Location</h2>
+<input id="ulDeleteLocationId" placeholder="Location ID">
+<button onclick="deleteUserLocation()">Delete Location</button>
+
+<h2>Fetch User Locations</h2>
+<button onclick="getUserLocations()">Fetch Locations</button>
+
+
+  <script>
+    let apiBase = 'http://localhost:3000'; // Change if deployed
+    let token = '';
+
+    function showOutput(data) {
+      document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function register() {
+      const res = await fetch(`${apiBase}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: document.getElementById('regName').value,
+          email: document.getElementById('regEmail').value,
+          password: document.getElementById('regPass').value
+        })
+      });
+      const data = await res.json();
+      showOutput(data);
+    }
+
+    async function login() {
+      const res = await fetch(`${apiBase}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: document.getElementById('logEmail').value,
+          password: document.getElementById('logPass').value
+        })
+      });
+      const data = await res.json();
+      token = data.token;
+      document.getElementById('tokenDisplay').textContent = token;
+      showOutput(data);
+    }
+
+async function addVehicle() {
+  const res = await fetch(`${apiBase}/vehicles`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      name: document.getElementById('vehMake').value, // ← goes into "Name"
+      height: parseFloat(document.getElementById('vehHeight').value) || null,
+      weightT: parseFloat(document.getElementById('vehWeight').value) || null  // ← this must be weightT
+    })
+  });
+
+  const data = await res.json();
+  showOutput(data);
+}
+
+
+
+    async function getVehicles() {
+  try {
+    const res = await fetch(`${apiBase}/vehicles`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    if (!res.ok) {
+      const error = await res.text();
+      throw new Error(`Fetch failed: ${res.status} ${res.statusText} - ${error}`);
+    }
+
+    const data = await res.json();
+    showOutput(data);
+  } catch (err) {
+    showOutput({ error: err.message });
+  }
+}
+
+async function getRoutes() {
+  try {
+    const res = await fetch(`${apiBase}/routes`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+
+    if (!res.ok) {
+      const error = await res.text();
+      throw new Error(`Fetch failed: ${res.status} ${res.statusText} - ${error}`);
+    }
+
+    const data = await res.json();
+    showOutput(data);
+  } catch (err) {
+    showOutput({ error: err.message });
+  }
+}
+async function addUserLocation() {
+  const res = await fetch(`${apiBase}/userlocations`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      locationId: parseInt(document.getElementById('ulLocationId').value, 10),
+      name: document.getElementById('ulName').value
+    })
+  });
+  showOutput(await res.json());
+}
+
+async function deleteUserLocation() {
+  const res = await fetch(`${apiBase}/userlocations`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      locationId: parseInt(document.getElementById('ulDeleteLocationId').value, 10)
+    })
+  });
+  showOutput({ deleted: res.status });
+}
+
+async function getUserLocations() {
+  const res = await fetch(`${apiBase}/userlocations`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  showOutput(await res.json());
+}
+
+
+  </script>
+</body>
+</html>
