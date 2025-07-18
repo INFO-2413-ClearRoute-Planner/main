@@ -12,9 +12,9 @@ async function getAllLocations() {
 
 // insert a new location
 async function createLocation(longitude, latitude) {
-  //connect to db an then add
+  //connect to db and then add
   const [result] = await pool.execute(
-    'INSERT INTO Location (Longitude, Latitude) VALUES (?,?)',
+    'INSERT INTO Location (Longitude, Latitude) VALUES (?, ?)',
     [longitude, latitude]
   );
   return result.insertId;

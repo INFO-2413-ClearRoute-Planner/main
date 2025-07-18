@@ -13,9 +13,20 @@ router.get('/', auth, async (req, res) => {
 
 // POST /locations
 router.post('/', auth, async (req, res) => {
-  const { longitude, latitude } = req.body;
-  const id = await createLocation(longitude, latitude);
-  res.status(201).json({ locationId: id });
+  const {longitude, latitude } = req.body;
+
+  if (!longitude || !latitude) {
+    return res.status(400).json({ error: 'Missing longitude, or latitude' });
+  }
+
+  try {
+    const id = await createLocation(name, longitude, latitude);
+    res.status(201).json({ locationId: id });
+  } catch (err) {
+    console.error('Error creating location:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
+
 
 module.exports = router;
