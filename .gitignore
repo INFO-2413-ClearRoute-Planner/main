@@ -4,3 +4,5 @@
 # Ignore node modules
 node_modules/
 
+GraphHopper/data/logs/graphhopper.log
+GraphHopper/data/kazakhstan-latest.osm.pbf

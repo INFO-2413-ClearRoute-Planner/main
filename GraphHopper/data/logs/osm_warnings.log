@@ -660,3 +660,193 @@
 [WARN] Restriction relation 15964612 has a 'restriction' tag, but also 'restriction:' tags. tags: {restriction=no_left_turn, except=bicycle, restriction:conditional=no_left_turn @ (Mo-Fr 15:00-18:00), type=restriction}, members: [from way 1180710379, via node 10965835358, to way 51469689]. Relation ignored.
 [WARN] Restriction relation 17957326 uses unknown restriction value: 'no_right_turn @ (Mo-Fr 07:00-09:00,16:00-18:00)'. tags: {restriction=no_right_turn @ (Mo-Fr 07:00-09:00,16:00-18:00), type=restriction}, members: [from way 130623413, via node 412703365, to way 35199190]. Relation ignored.
 [WARN] Restriction relation 18556983 uses unknown restriction value: 'no_left_turn @ (Mo-Su 07:00-19:00)'. tags: {restriction=no_left_turn @ (Mo-Su 07:00-19:00), type=restriction}, members: [from way 1257088785, via node 431381405, to way 1257759214]. Relation ignored.
+[WARN] Restriction relation 1693521 has no member with role 'to'. tags: {restriction=only_straight_on, type=restriction}, members: [from way 196856584, via node 1327177123]. Relation ignored.
+[WARN] Restriction relation 1702340 has no member with role 'to'. tags: {restriction=only_straight_on, type=restriction}, members: [via node 295844214, from way 314421869]. Relation ignored.
+[WARN] Restriction relation 1708391 has no member with role 'from'. tags: {restriction=only_straight_on, type=restriction}, members: [to way 42199355, via node 1395766861]. Relation ignored.
+[WARN] Restriction relation 1850614 has to-member ways that aren't adjacent to the via-member node. tags: {restriction=only_straight_on, type=restriction}, members: [from way 119009506, to way 20337421, via node 216050931]. Relation ignored.
+[WARN] Restriction relation 2289319 has no member with role 'to'. tags: {restriction=only_right_turn, type=restriction}, members: [from way 218944551, via node 295844214]. Relation ignored.
+[WARN] Restriction relation 2575474 has a member with an empty role. tags: {restriction=only_right_turn, type=restriction}, members: [from way 54411647, to way 470684278, via node 297596603,  way 450556097]. Relation ignored.
+[WARN] Restriction relation 2775871 has no member with role 'from'. tags: {restriction=only_straight_on, type=restriction}, members: [to way 59995217, via node 745832185]. Relation ignored.
+[WARN] Restriction relation 2822070 has no member with role 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [from way 192718880]. Relation ignored.
+[WARN] Restriction relation 3285074 has no member with role 'to'. tags: {restriction=only_right_turn, type=restriction}, members: [from way 149795067, via node 1627457193]. Relation ignored.
+[WARN] Restriction relation 3285075 has no member with role 'to'. tags: {restriction=only_right_turn, type=restriction}, members: [from way 149795050, via node 1627457185]. Relation ignored.
+[WARN] Restriction relation 3285076 has no member with role 'to'. tags: {restriction=only_right_turn, type=restriction}, members: [from way 149795025, via node 1627457176]. Relation ignored.
+[WARN] Restriction relation 3285077 has no member with role 'from'. tags: {restriction=only_straight_on, type=restriction}, members: [via node 1627457193, to way 1082807847]. Relation ignored.
+[WARN] Restriction relation 3285078 has no member with role 'from'. tags: {restriction=only_straight_on, type=restriction}, members: [to way 149795090, via node 1627457152]. Relation ignored.
+[WARN] Restriction relation 3285079 has no member with role 'from' and 'to'. tags: {restriction=only_straight_on, type=restriction}, members: [via node 1627457185]. Relation ignored.
+[WARN] Restriction relation 3425232 has no member with role 'to'. tags: {restriction=only_right_turn, type=restriction}, members: [from way 208303811, via node 457939353]. Relation ignored.
+[WARN] Restriction relation 3445995 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [to way 218944551, via node 295844214]. Relation ignored.
+[WARN] Restriction relation 3514139 has no member with role 'from'. tags: {restriction=only_straight_on, type=restriction}, members: [to way 167069901, via node 1784771879]. Relation ignored.
+[WARN] Restriction relation 3514141 has multiple members with role 'from' even though it is not a 'no_entry' restriction. tags: {restriction=only_straight_on, type=restriction}, members: [from way 1326091371, from way 1342387742, from way 1342387741, from way 1326091372, from way 324720725, to way 666664211]. Relation ignored.
+[WARN] Restriction relation 3817887 has no member with role 'from'. tags: {restriction=only_right_turn, type=restriction}, members: [via node 745832166, to way 815218930]. Relation ignored.
+[WARN] Restriction relation 3920084 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 50828700, via node 1290302959]. Relation ignored.
+[WARN] Restriction relation 3971909 has no member with role 'to'. tags: {restriction=only_right_turn, type=restriction}, members: [from way 205197562, via node 2151743085]. Relation ignored.
+[WARN] Restriction relation 3971912 has no member with role 'to'. tags: {restriction=only_right_turn, type=restriction}, members: [from way 205197557, via node 2151743096]. Relation ignored.
+[WARN] Restriction relation 3971915 has no member with role 'from' and 'to'. tags: {restriction=only_straight_on, type=restriction}, members: [via node 2151743096]. Relation ignored.
+[WARN] Restriction relation 3971916 has no member with role 'from' and 'to'. tags: {restriction=only_straight_on, type=restriction}, members: [via node 2151743085]. Relation ignored.
+[WARN] Restriction relation 4800817 has from-member ways that aren't adjacent to the via-member node. tags: {restriction=no_left_turn, type=restriction}, members: [from way 690355196, via node 297173747, to way 338969172]. Relation ignored.
+[WARN] Restriction relation 5734450 has no member with role 'via'. tags: {restriction=no_u_turn, type=restriction}, members: [to way 432832066, from way 432832067]. Relation ignored.
+[WARN] Restriction relation 6366300 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 428021897]. Relation ignored.
+[WARN] Restriction relation 6366323 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 428021649, via node 4271752421]. Relation ignored.
+[WARN] Restriction relation 6455512 has no member with role 'from'. tags: {restriction=no_u_turn, type=restriction}, members: [to way 298591747, via node 214592586]. Relation ignored.
+[WARN] Restriction relation 6584967 has no member with role 'to'. tags: {restriction=no_right_turn, type=restriction}, members: [from way 424726081]. Relation ignored.
+[WARN] Restriction relation 6610299 has to-member ways that aren't split at the via-member node. tags: {restriction=only_right_turn, type=restriction}, members: [from way 226289603, via node 2392662836, to way 311247022]. Relation ignored.
+[WARN] Restriction relation 6815751 has to-member ways that aren't adjacent to the via-member node. tags: {restriction=no_left_turn, type=restriction}, members: [from way 142928163, via node 1563907412, to way 461398745]. Relation ignored.
+[WARN] Restriction relation 6818427 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 143072012, via node 1565621849]. Relation ignored.
+[WARN] Restriction relation 6818430 has no member with role 'from'. tags: {restriction=no_right_turn, type=restriction}, members: [via node 1565621849, to way 143072012]. Relation ignored.
+[WARN] Restriction relation 6818431 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 1565621849]. Relation ignored.
+[WARN] Restriction relation 6818432 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 1565621849, to way 461594961, to way 1374083782]. Relation ignored.
+[WARN] Restriction relation 6818433 has no member with role 'to'. tags: {restriction=no_straight_on, type=restriction}, members: [from way 143081165, via node 1565621822]. Relation ignored.
+[WARN] Restriction relation 6818434 has no member with role 'from' and 'to'. tags: {restriction=no_right_turn, type=restriction}, members: [via node 1565621822]. Relation ignored.
+[WARN] Restriction relation 6818435 has no member with role 'to'. tags: {restriction=no_right_turn, type=restriction}, members: [from way 143072012, via node 1565621843]. Relation ignored.
+[WARN] Restriction relation 7052858 has no member with role 'from'. tags: {restriction=no_right_turn, type=restriction}, members: [via node 260034993, to way 425476012]. Relation ignored.
+[WARN] Restriction relation 7052859 has no member with role 'to'. tags: {restriction=no_right_turn, type=restriction}, members: [from way 425476012, via node 260034993]. Relation ignored.
+[WARN] Restriction relation 7052860 has no member with role 'to'. tags: {restriction=no_right_turn, type=restriction}, members: [from way 178063500, via node 268159397]. Relation ignored.
+[WARN] Restriction relation 7052861 has no member with role 'from'. tags: {restriction=no_right_turn, type=restriction}, members: [via node 268159397, to way 178063500]. Relation ignored.
+[WARN] Restriction relation 7052862 has no member with role 'from'. tags: {restriction=no_right_turn, type=restriction}, members: [via node 328875316, to way 479417147]. Relation ignored.
+[WARN] Restriction relation 7052866 has no member with role 'to'. tags: {restriction=no_right_turn, type=restriction}, members: [from way 32970830, via node 1778945022]. Relation ignored.
+[WARN] Restriction relation 7469878 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 515289230, via node 1238541207]. Relation ignored.
+[WARN] Restriction relation 7469929 has no member with role 'via'. tags: {restriction=no_u_turn, type=restriction}, members: [from way 515289230, to way 515289231]. Relation ignored.
+[WARN] Restriction relation 7469930 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via way 515289231]. Relation ignored.
+[WARN] Restriction relation 7481238 has no member with role 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [from way 259714720, via node 1466679374]. Relation ignored.
+[WARN] Restriction relation 7484182 has no member with role 'to'. tags: {restriction=no_right_turn, type=restriction}, members: [from way 516592440, via node 4120000118]. Relation ignored.
+[WARN] Restriction relation 7701360 has no member with role 'to'. tags: {restriction=only_right_turn, type=restriction}, members: [from way 210663884, via node 2207460050]. Relation ignored.
+[WARN] Restriction relation 7702287 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 253450967, via node 2593716508]. Relation ignored.
+[WARN] Restriction relation 7867945 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 174281808]. Relation ignored.
+[WARN] Restriction relation 8449184 has to-member ways that aren't split at the via-member node. tags: {restriction=no_right_turn, type=restriction}, members: [from way 501197217, via node 1765279449, to way 487901822]. Relation ignored.
+[WARN] Restriction relation 8547947 has no member with role 'from'. tags: {restriction=no_right_turn, type=restriction}, members: [via node 5843971377, to way 618266186]. Relation ignored.
+[WARN] Restriction relation 8644227 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 622653187, via node 5880996885]. Relation ignored.
+[WARN] Restriction relation 9310850 has to-member ways that aren't adjacent to the via-member node. tags: {restriction=only_right_turn, type=restriction}, members: [from way 72352119, to way 77863722, via node 859381409]. Relation ignored.
+[WARN] Restriction relation 9366525 has from-member ways that aren't adjacent to the via-member node. tags: {restriction=no_u_turn, type=restriction}, members: [from way 53216911, via node 673559608, to way 53216911]. Relation ignored.
+[WARN] Restriction relation 10119403 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 732085510, via node 6557359028]. Relation ignored.
+[WARN] Restriction relation 12111079 has no member with role 'to'. tags: {restriction=no_right_turn, type=restriction}, members: [from way 889423784, via node 1306363654]. Relation ignored.
+[WARN] Restriction relation 12111080 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 1306363654, to way 115687493]. Relation ignored.
+[WARN] Restriction relation 12111081 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 1306363654, to way 889423784]. Relation ignored.
+[WARN] Restriction relation 12367000 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 661385067, to way 911121594]. Relation ignored.
+[WARN] Restriction relation 12367004 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [to way 661385067]. Relation ignored.
+[WARN] Restriction relation 12367363 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 260143920]. Relation ignored.
+[WARN] Restriction relation 12368581 has no member with role 'via'. tags: {restriction=no_u_turn, type=restriction}, members: [from way 911221033, to way 911221033]. Relation ignored.
+[WARN] Restriction relation 12368582 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 260710879]. Relation ignored.
+[WARN] Restriction relation 12476285 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 4907131009]. Relation ignored.
+[WARN] Restriction relation 12476286 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 4907131009, to way 499536664]. Relation ignored.
+[WARN] Restriction relation 12476289 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 920683617, via node 4907131009]. Relation ignored.
+[WARN] Restriction relation 12476292 has no member with role 'from'. tags: {restriction=only_right_turn, type=restriction}, members: [via node 4907131007, to way 920683844]. Relation ignored.
+[WARN] Restriction relation 12476294 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 920683844, via node 4907131007]. Relation ignored.
+[WARN] Restriction relation 12476738 has no member with role 'via'. tags: {restriction=only_right_turn, type=restriction}, members: [from way 691164908, to way 920723063]. Relation ignored.
+[WARN] Restriction relation 12476740 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 920723063, to way 691164908]. Relation ignored.
+[WARN] Restriction relation 12476758 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 127707291]. Relation ignored.
+[WARN] Restriction relation 12476765 has no member with role 'via'. tags: {restriction=no_u_turn, type=restriction}, members: [from way 691164905, to way 691164905]. Relation ignored.
+[WARN] Restriction relation 12476768 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 920727961, to way 691164905]. Relation ignored.
+[WARN] Restriction relation 12476776 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 920727961]. Relation ignored.
+[WARN] Restriction relation 12476777 has no member with role 'via'. tags: {restriction=no_u_turn, type=restriction}, members: [from way 920727961, to way 920727961]. Relation ignored.
+[WARN] Restriction relation 12476781 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [to way 1240708076]. Relation ignored.
+[WARN] Restriction relation 12476783 has no member with role 'to'. tags: {restriction=no_right_turn, type=restriction}, members: [from way 1240708076]. Relation ignored.
+[WARN] Restriction relation 12476790 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 675942651, to way 920731517]. Relation ignored.
+[WARN] Restriction relation 12476807 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1240371771, to way 920732520]. Relation ignored.
+[WARN] Restriction relation 12476808 has no member with role 'via'. tags: {restriction=no_u_turn, type=restriction}, members: [from way 920732520, to way 920732520]. Relation ignored.
+[WARN] Restriction relation 12476809 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 920732520, to way 691344992]. Relation ignored.
+[WARN] Restriction relation 12476811 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 920738159, to way 1240371771]. Relation ignored.
+[WARN] Restriction relation 12476812 has no member with role 'via'. tags: {restriction=only_right_turn, type=restriction}, members: [from way 691344992, to way 920732520]. Relation ignored.
+[WARN] Restriction relation 12476818 has no member with role 'via'. tags: {restriction=no_u_turn, type=restriction}, members: [from way 691344989, to way 691344989]. Relation ignored.
+[WARN] Restriction relation 12476819 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 691344989, to way 154454120]. Relation ignored.
+[WARN] Restriction relation 12526803 has no member with role 'via'. tags: {restriction=no_u_turn, type=restriction}, members: [from way 428033702, to way 428033702]. Relation ignored.
+[WARN] Restriction relation 12526837 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 428036117]. Relation ignored.
+[WARN] Restriction relation 12526839 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [to way 428036117]. Relation ignored.
+[WARN] Restriction relation 12526843 has no member with role 'to'. tags: {restriction=no_right_turn, type=restriction}, members: [from way 572622650]. Relation ignored.
+[WARN] Restriction relation 12526846 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [to way 572622650]. Relation ignored.
+[WARN] Restriction relation 12526878 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 759579816]. Relation ignored.
+[WARN] Restriction relation 12526881 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 925165993, to way 759579816]. Relation ignored.
+[WARN] Restriction relation 12526909 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [to way 208914952]. Relation ignored.
+[WARN] Restriction relation 12526952 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 661385066]. Relation ignored.
+[WARN] Restriction relation 12526954 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 925171970, to way 661385066]. Relation ignored.
+[WARN] Restriction relation 12526979 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 5542001694, to way 925172129]. Relation ignored.
+[WARN] Restriction relation 12527023 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 550399080, to way 174281808]. Relation ignored.
+[WARN] Restriction relation 12527065 has from-member ways that aren't adjacent to the via-member node. tags: {restriction=no_u_turn, type=restriction}, members: [from way 925176240, via node 7095560755, to way 925176240]. Relation ignored.
+[WARN] Restriction relation 12556397 has from-member ways that aren't adjacent to the via-member node. tags: {restriction=no_u_turn, type=restriction}, members: [from way 692910546, via node 254027085, to way 692910546]. Relation ignored.
+[WARN] Restriction relation 16301803 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 1839313146]. Relation ignored.
+[WARN] Restriction relation 16301804 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 1841991481]. Relation ignored.
+[WARN] Restriction relation 16681975 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 428280351, to way 1175532316]. Relation ignored.
+[WARN] Restriction relation 16681976 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [to way 292275240]. Relation ignored.
+[WARN] Restriction relation 16681980 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 260381859, to way 24039360]. Relation ignored.
+[WARN] Restriction relation 16682029 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222739539, to way 1206067088]. Relation ignored.
+[WARN] Restriction relation 16682248 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 2780879786, to way 273208703]. Relation ignored.
+[WARN] Restriction relation 16682249 has no member with role 'from' and 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 2780879786]. Relation ignored.
+[WARN] Restriction relation 16682251 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222750929, via node 698742314]. Relation ignored.
+[WARN] Restriction relation 16682259 has no member with role 'from' and 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 6769239691]. Relation ignored.
+[WARN] Restriction relation 16682335 has no member with role 'to'. tags: {restriction=no_straight_on, type=restriction}, members: [from way 30343268, via node 2463736023]. Relation ignored.
+[WARN] Restriction relation 16682351 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222752915, via node 6228243410]. Relation ignored.
+[WARN] Restriction relation 16682361 has no member with role 'from' and 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 3160534282]. Relation ignored.
+[WARN] Restriction relation 16682363 has no member with role 'from' and 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 3160534282]. Relation ignored.
+[WARN] Restriction relation 16682371 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222752931, via node 2837226105]. Relation ignored.
+[WARN] Restriction relation 16682382 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222755384, via node 2402208799]. Relation ignored.
+[WARN] Restriction relation 16682395 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 3166334944, to way 1222755395]. Relation ignored.
+[WARN] Restriction relation 16682406 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222755400, via node 10600362872]. Relation ignored.
+[WARN] Restriction relation 16682407 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 10600362872, to way 1222755401]. Relation ignored.
+[WARN] Restriction relation 16682409 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 10019858882, to way 1222755403]. Relation ignored.
+[WARN] Restriction relation 16682410 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222755402, via node 10019858882]. Relation ignored.
+[WARN] Restriction relation 16682418 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222755407, via node 2825687238]. Relation ignored.
+[WARN] Restriction relation 16682424 has to-member ways that aren't adjacent to the via-member node. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222755413, via node 2835213354, to way 1222755414]. Relation ignored.
+[WARN] Restriction relation 16682425 has from-member ways that aren't adjacent to the via-member node. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222755414, via node 2835213354, to way 1222755415]. Relation ignored.
+[WARN] Restriction relation 16682427 has to-member ways that aren't adjacent to the via-member node. tags: {restriction=no_straight_on, type=restriction}, members: [from way 278144369, via node 2835213354, to way 1222755414]. Relation ignored.
+[WARN] Restriction relation 16682428 has from-member ways that aren't adjacent to the via-member node. tags: {restriction=no_straight_on, type=restriction}, members: [from way 1222755414, via node 2835213354, to way 278144369]. Relation ignored.
+[WARN] Restriction relation 16682457 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222755435, via node 7182365492]. Relation ignored.
+[WARN] Restriction relation 16682458 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 7182365492, to way 1222755433]. Relation ignored.
+[WARN] Restriction relation 16682461 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 491904469, via node 5214369058]. Relation ignored.
+[WARN] Restriction relation 16682463 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 5214369058, to way 1222755438]. Relation ignored.
+[WARN] Restriction relation 16684641 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222882872, via node 10833930215]. Relation ignored.
+[WARN] Restriction relation 16684643 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 10833930215, to way 1164855316]. Relation ignored.
+[WARN] Restriction relation 16684822 has no member with role 'from' and 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 2207459482]. Relation ignored.
+[WARN] Restriction relation 16685185 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1222903659, via node 260540054]. Relation ignored.
+[WARN] Restriction relation 17035047 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11462996904]. Relation ignored.
+[WARN] Restriction relation 17035048 has from-member ways that aren't split at the via-member node. tags: {restriction=no_u_turn, type=restriction}, members: [from way 1240126481, via node 11462996904, to way 1240126481]. Relation ignored.
+[WARN] Restriction relation 17514436 has no member with role 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [from way 1208216979, via node 11195343202]. Relation ignored.
+[WARN] Restriction relation 17514439 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 172370528, via node 11195343202]. Relation ignored.
+[WARN] Restriction relation 17514445 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1193898831, via node 1832796816]. Relation ignored.
+[WARN] Restriction relation 17514446 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11195343197]. Relation ignored.
+[WARN] Restriction relation 17514447 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 11195343197, to way 1208216979]. Relation ignored.
+[WARN] Restriction relation 17514448 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11195343197]. Relation ignored.
+[WARN] Restriction relation 17514449 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 1832796816]. Relation ignored.
+[WARN] Restriction relation 17514451 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1208216980, via node 11195343208]. Relation ignored.
+[WARN] Restriction relation 17514452 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11821309168]. Relation ignored.
+[WARN] Restriction relation 17514453 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11821309168]. Relation ignored.
+[WARN] Restriction relation 17514455 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11821309167]. Relation ignored.
+[WARN] Restriction relation 17515201 has no member with role 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [from way 1378882925, from way 39382284, via node 1832796669]. Relation ignored.
+[WARN] Restriction relation 17515202 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 1832796669]. Relation ignored.
+[WARN] Restriction relation 17519916 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 8973479789]. Relation ignored.
+[WARN] Restriction relation 17519917 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 8973479789]. Relation ignored.
+[WARN] Restriction relation 17519919 has from-member ways that aren't adjacent to the via-member node. tags: {restriction=no_u_turn, type=restriction}, members: [from way 1276701677, via node 8973479789, to way 1276701677]. Relation ignored.
+[WARN] Restriction relation 17519924 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11050497525]. Relation ignored.
+[WARN] Restriction relation 17519925 has no member with role 'from'. tags: {restriction=no_right_turn, type=restriction}, members: [via node 11050497525, to way 1190107412]. Relation ignored.
+[WARN] Restriction relation 17519927 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1190107412, via node 11050497525]. Relation ignored.
+[WARN] Restriction relation 17520000 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11821309143]. Relation ignored.
+[WARN] Restriction relation 17520001 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11821309143]. Relation ignored.
+[WARN] Restriction relation 17520031 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 1238272268, via node 11502749474]. Relation ignored.
+[WARN] Restriction relation 17520032 has no member with role 'via'. tags: {restriction=no_u_turn, type=restriction}, members: [from way 172370762, to way 172370762]. Relation ignored.
+[WARN] Restriction relation 17520033 has no member with role 'via'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 172370762, to way 1238272269]. Relation ignored.
+[WARN] Restriction relation 17520035 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11502749474]. Relation ignored.
+[WARN] Restriction relation 17525431 has from-member ways that aren't split at the via-member node. tags: {restriction=no_u_turn, type=restriction}, members: [from way 1218374492, via node 4275634147, to way 1218374492]. Relation ignored.
+[WARN] Restriction relation 17530075 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11050497525]. Relation ignored.
+[WARN] Restriction relation 17675035 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 5679895317]. Relation ignored.
+[WARN] Restriction relation 17675064 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 3195124332]. Relation ignored.
+[WARN] Restriction relation 17681586 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 5768912264]. Relation ignored.
+[WARN] Restriction relation 18097868 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 3250377281]. Relation ignored.
+[WARN] Restriction relation 18223928 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11898366175]. Relation ignored.
+[WARN] Restriction relation 18223941 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 12124853852]. Relation ignored.
+[WARN] Restriction relation 18223960 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11901081821]. Relation ignored.
+[WARN] Restriction relation 18236486 has no member with role 'from' and 'to'. tags: {restriction=only_straight_on, type=restriction}, members: [via node 5768912264]. Relation ignored.
+[WARN] Restriction relation 18236491 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 3195124323]. Relation ignored.
+[WARN] Restriction relation 18241023 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 5768903666]. Relation ignored.
+[WARN] Restriction relation 18257003 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 9696555257]. Relation ignored.
+[WARN] Restriction relation 18257056 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11080092092]. Relation ignored.
+[WARN] Restriction relation 18266855 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 11080092092]. Relation ignored.
+[WARN] Restriction relation 18266864 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 3195124323]. Relation ignored.
+[WARN] Restriction relation 18266871 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 3250377281]. Relation ignored.
+[WARN] Restriction relation 18266872 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 5679895142]. Relation ignored.
+[WARN] Restriction relation 18266873 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 5679895142]. Relation ignored.
+[WARN] Restriction relation 18266874 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 5679895317]. Relation ignored.
+[WARN] Restriction relation 18278966 has no member with role 'from' and 'to'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 3195124332]. Relation ignored.
+[WARN] Restriction relation 18292716 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 256672628, via node 4306391412]. Relation ignored.
+[WARN] Restriction relation 18811998 has no member with role 'from'. tags: {restriction=only_right_turn, type=restriction}, members: [via node 2980915697, to way 318380196]. Relation ignored.
+[WARN] Restriction relation 18947657 has no member with role 'to'. tags: {restriction=no_left_turn, type=restriction}, members: [from way 122669182, via node 1370050863]. Relation ignored.
+[WARN] Restriction relation 19058680 has no member with role 'from'. tags: {restriction=no_u_turn, type=restriction}, members: [via node 12169880527, to way 1314841349]. Relation ignored.
+[WARN] Restriction relation 19112261 has no member with role 'from'. tags: {restriction=no_left_turn, type=restriction}, members: [via node 12139910468, to way 1385353934]. Relation ignored.
