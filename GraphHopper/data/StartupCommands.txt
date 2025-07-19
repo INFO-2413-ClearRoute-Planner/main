@@ -2,8 +2,8 @@ cd C:\Users\Jared\Documents\ClearRoutePlanner\main\GraphHopper\data
 
 java -D"dw.graphhopper.datareader.file=../../../british-columbia-latest.osm.pbf" -jar graphhopper-web-10.0.jar server config.yml
 
-java -D"dw.graphhopper.datareader.file=./kazakhstan-latest.osm.pbf" -jar graphhopper-web-10.0.jar server config.yml
+java -D"dw.graphhopper.datareader.file=./mazowieckie-latest.osm.pbf" -jar graphhopper-web-10.0.jar server config.yml
 
 java -jar graphhopper-web-10.0.jar server config.yml
 
-Clear Cache: 
+Clear Cache: Remove-Item -Recurse -Force .\graph-cache\

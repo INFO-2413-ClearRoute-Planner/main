@@ -181,8 +181,8 @@ body {
 #map {
     position: fixed;         /* Make map fill the viewport */
     z-index: 1;             /* Send it behind all UI */
-    top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    top: 8.5%;
+    height: 91%;
 }

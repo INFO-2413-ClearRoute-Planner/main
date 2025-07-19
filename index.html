@@ -1,5 +1,14 @@
 <html lang="en">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;150;200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <link rel="stylesheet" href="GraphHopper\leaflet-routing-machine-3.2.12\dist\leaflet-routing-machine.css" />
 
@@ -8,7 +17,65 @@
     <title>index</title>
 </head>
 <body>
-    <div id="map" style="height: 100%;"></div>
+    <header class="header">
+        <div class="top-bar">
+            <div class="top-bar_content">
+                <a href="#" class="title">
+                    <span>ClearRoute</span>
+                </a>
+                <nav class="navbar">
+                    <ul class="nav_list">
+                        <li class="nav_item">
+                            <a href="#" class="nav_link">Route History</a>
+                        </li>
+                        <li class="nav_item">
+                            <a href="#" class="nav_link">Saved Route</a>
+                        </li>
+                        <li class="nav_item">
+                            <a href="#" class="nav_link">Vehicles</a>
+                        </li>
+                    </ul>
+                </nav>
+                <a href="#" class="usericon">
+                    <img src="circle-user-regular.svg" alt="userlogo" class="userlogo_img">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="map"></div>
+        <div class="box box1">
+            <form id="form" action="/">
+                <div class="entity">
+                    <h1>Route Search</h1>
+                </div>
+                <div class="inputs">
+                    <label for="height">Height</label>
+                    <input id="height" name="height" type="text" size="20">
+                </div>
+                <div class="inputs">
+                    <label for="weight">Weight</label>
+                    <input id="weight" name="weight" type="text" size="20">
+                </div>
+                <div class="inputs">
+                    <label for="width">Width</label>
+                    <input id="width" name="width" type="text" size="20">
+                </div>
+                <div class="inputs">
+                    <label for="vehicle">Saved Vehicles</label>
+                    <select>
+                        <option value="route">route1</option>
+                        <option value="route">route2</option>
+                        <option value="route">route3</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="box box2"></div>
+        <div class="box box3"></div>
+        <div class="box box4"></div>
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>

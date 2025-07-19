@@ -73,6 +73,7 @@ graphhopper:
   # USED TO BE UNCOMMENTED
   # profiles_ch:
   #   - profile: truck1
+  profiles_ch: []
 
   # Hybrid mode:
   # Similar to speed mode, the hybrid mode (Landmarks, LM) also speeds up routing by doing calculating auxiliary data
