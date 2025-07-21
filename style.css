@@ -92,14 +92,12 @@ body {
     gap: 10px;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-top: auto;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 60px; /* Add top padding to account for fixed header */
+    padding-left: 20px; /* Add left padding for overall spacing */
 }
-.box1 {
-    align-self: center;
-    z-index: 2;
-}
+
 .box {
     flex-grow: 1;
     display: flex;
@@ -108,6 +106,12 @@ body {
     align-content: center;
     height: 300px;
     width: 200px;
+}
+.RouteSearch {
+    flex-shrink: 0; /* Prevent the route search from shrinking */
+    margin-top: 50px; /* Add top spacing */
+    margin-left: 50px; /* Add left spacing */
+    align-self: flex-start; /* Align to the top-left */
 }
 .entity{
     color: #fff;
@@ -122,7 +126,9 @@ body {
 #form {
     padding: 15px 25px;
     background-color: rgba(54, 57, 62, 0.6);
-
+    border-radius: 8px;
+    width: auto;
+    min-width: 250px;
 }
 .inputs {
     color: #fff;
@@ -132,27 +138,527 @@ body {
     font-weight: 500;
     padding: 3px;
     row-gap: 5px;
+    margin-bottom: 8px;
  }
 
- .inputs input {
-    border: 5px;
+ .inputs input,
+ .inputs select {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
     display: block;
     font-size: 10px;
-    padding: 2px;
-    
+    padding: 6px 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
  }
+
+ .inputs input:focus,
+ .inputs select:focus {
+    outline: none;
+    border-color: #1e90ff;
+    background-color: rgba(255, 255, 255, 0.15);
+ }
+
+ .popup-buttons {
+    display: flex;
+    gap: 8px;
+    margin: 10px 0;
+    flex-wrap: wrap;
+ }
+
+ .popup-btn {
+    background-color: rgba(30, 144, 255, 0.8);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    flex: 1;
+    min-width: 100px;
+ }
+
+ .popup-btn:hover {
+    background-color: #1e90ff;
+    border-color: rgba(255, 255, 255, 0.3);
+ }
+
 #form button {
     color: white;
     font-size: 12px;
     font-weight: 500;
     background-color: #1e90ff;
-    padding: 5px 10px;
+    padding: 8px 15px;
     text-align: center;
     width: 100%;
     transition: all 0.2s;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 8px;
 }
 #form button:hover {
     background-color: #73c2fb;
+}
+
+/* Pop-up Toggle Checkboxes (Hidden) */
+.popup-toggle,
+.user-state-toggle {
+    display: none;
+}
+
+/* Pop-up Overlay Styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Background label that covers the entire overlay */
+.popup-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* Show popup when checkbox is checked */
+#saved-route-toggle:checked ~ #saved-route-popup,
+#vehicles-toggle:checked ~ #vehicles-popup,
+#account-toggle:checked ~ #account-popup {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup-content {
+    background-color: rgba(54, 57, 62, 0.95);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    transform: translateY(-50px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1002;
+}
+
+/* Animate popup content when shown */
+#saved-route-toggle:checked ~ #saved-route-popup .popup-content,
+#vehicles-toggle:checked ~ #vehicles-popup .popup-content {
+    transform: translateY(0);
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.popup-header h2 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
+.close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.popup-body {
+    padding: 20px 25px;
+}
+
+.route-item,
+.vehicle-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.route-item:last-child,
+.vehicle-item:last-child {
+    margin-bottom: 0;
+}
+
+.route-item h3,
+.vehicle-item h3 {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+}
+
+.route-item p,
+.vehicle-item p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    margin: 0 0 12px 0;
+}
+
+.route-actions,
+.vehicle-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.use-route-btn,
+.select-vehicle-btn {
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.use-route-btn:hover,
+.select-vehicle-btn:hover {
+    background-color: #73c2fb;
+}
+
+.edit-vehicle-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.edit-vehicle-btn:hover {
+    background-color: #5cbf2a;
+}
+
+.delete-route-btn,
+.delete-vehicle-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.delete-route-btn:hover,
+.delete-vehicle-btn:hover {
+    background-color: #e74c3c;
+}
+
+.popup-footer {
+    padding: 15px 25px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.add-new-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+
+.add-new-btn:hover {
+    background-color: #5cbf2a;
+}
+
+/* Authentication System Styles */
+.usericon label {
+    cursor: pointer;
+}
+
+/* Account popup content switching */
+.login-register-content,
+.user-account-content {
+    display: block;
+}
+
+/* Hide account page when not logged in */
+#user-logged-in:not(:checked) ~ #account-popup .user-account-content {
+    display: none;
+}
+
+/* Hide login/register when logged in */
+#user-logged-in:checked ~ #account-popup .login-register-content {
+    display: none;
+}
+
+/* Authentication Container */
+.auth-container {
+    position: relative;
+    min-height: 400px;
+}
+
+.auth-form {
+    padding: 20px 25px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Login/Register toggle */
+.login-form {
+    display: block;
+}
+
+.register-form {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+#login-register-toggle:checked ~ #account-popup .login-form {
+    display: none;
+}
+
+#login-register-toggle:checked ~ #account-popup .register-form {
+    display: block;
+}
+
+.auth-title {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.auth-form h3 {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.auth-inputs {
+    margin-bottom: 20px;
+}
+
+.auth-btn {
+    background-color: #1e90ff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.2s;
+    display: block;
+    border: none;
+    margin-bottom: 15px;
+}
+
+.auth-btn:hover {
+    background-color: #73c2fb;
+}
+
+.auth-switch {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    text-align: center;
+    margin: 0;
+}
+
+.switch-link {
+    color: #1e90ff;
+    cursor: pointer;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.switch-link:hover {
+    color: #73c2fb;
+}
+
+/* User Account Styles */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.user-avatar {
+    flex-shrink: 0;
+}
+
+.avatar-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 8px;
+}
+
+.user-details h3 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+}
+
+.user-details p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    margin: 2px 0;
+}
+
+.account-section {
+    margin-top: 25px;
+}
+
+.account-section h4 {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.route-history {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.history-info h5 {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.history-info p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 11px;
+    margin: 2px 0;
+}
+
+.reuse-route-btn {
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+}
+
+.reuse-route-btn:hover {
+    background-color: #73c2fb;
+}
+
+.settings-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.settings-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.settings-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.logout-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.2s;
+    display: block;
+}
+
+.logout-btn:hover {
+    background-color: #e74c3c;
 }
 
 /*Media device setting*/
