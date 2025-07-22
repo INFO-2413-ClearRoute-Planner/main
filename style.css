@@ -112,6 +112,7 @@ body {
     margin-top: 50px; /* Add top spacing */
     margin-left: 50px; /* Add left spacing */
     align-self: flex-start; /* Align to the top-left */
+    z-index:2;
 }
 .entity{
     color: #fff;

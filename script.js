@@ -1,11 +1,14 @@
-//Map UI
+// Map UI
 var map = L.map('map').setView([52.22461607040788, 20.99271139468625], 7);
 
+// Shows the Map
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
 
+// Control the Routing
+// Sends GET request to server (8989) with changed profile (WIP)
 L.Routing.control({
 waypoints: [
     L.latLng(52.26322137056714, 21.015384884035132),  // Warsaw
