@@ -18,6 +18,7 @@ fetch('http://localhost:8989/route?ch=false', {
       [-123.02996285956368, 49.279381755743714], 
       [-123.05059137742096, 49.31794469596032]
     ],
+    // Here we pas onto the server our custom model
     custom_model: {
       distance_influence: 1,
       priority: [{ if: "max_height < 5", multiply_by: "0" }],
@@ -27,7 +28,8 @@ fetch('http://localhost:8989/route?ch=false', {
 })
 .then(response => response.json())
 .then(data => {
-  const encoded = data.paths[0].points; // this is the encoded polyline
+  // Here we create a path from GraphHopper response
+  const encoded = data.paths[0].points; 
   const coords = L.Polyline.fromEncoded(encoded).getLatLngs();
   L.polyline(coords, { color: 'blue' }).addTo(map);
 })
