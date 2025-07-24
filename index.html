@@ -226,27 +226,31 @@
                         <div class="auth-inputs">
 
                             <div class="inputs">
-                                <label for="register-name">Full Name</label>
-                                <input id="register-name" type="text" placeholder="Enter your full name">
+                                <label for="registerName">Full Name</label>
+                                <input id="registerName" type="text" onkeyup="validateInput()" placeholder="Enter your full name">
+                                <span id="nameError" style="color:red;"></span>
+                            </div>
+                        
+                            <div class="inputs">
+                                <label for="registerEmail">Email</label>
+                                <input id="registerEmail" type="email" onkeyup="validateInput()" placeholder="Enter your email">
+                                <span id="emailError" style="color:red;"></span>
                             </div>
 
                             <div class="inputs">
-                                <label for="register-email">Email</label>
-                                <input id="register-email" type="email" placeholder="Enter your email">
+                                <label for="registerPassword">Password</label>
+                                <input id="registerPassword" type="password" onkeyup="validateInput()" placeholder="Create a password">
+                                <span id="passwordError" style="color:red;"></span>
                             </div>
 
                             <div class="inputs">
-                                <label for="register-password">Password</label>
-                                <input id="register-password" type="password" placeholder="Create a password">
-                            </div>
-
-                            <div class="inputs">
-                                <label for="register-confirm">Confirm Password</label>
-                                <input id="register-confirm" type="password" placeholder="Confirm your password">
+                                <label for="registerConfirm">Confirm Password</label>
+                                <input id="registerConfirm" type="password" onkeyup="validateInput()" placeholder="Confirm your password">
+                                <span id="confirmPassError" style="color:red;"></span>
                             </div>
 
                         </div>
-                        <label for="user-logged-in" class="btn auth-btn">Create Account</label>
+                        <label for="user-logged-in" class="btn auth-btn" onclick="">Create Account</label>
                         <p class="auth-switch">Already have an account? <label for="login-register-toggle" class="switch-link">Login here</label></p>
                     </div>
                 </div>
