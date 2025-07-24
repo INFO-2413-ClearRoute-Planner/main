@@ -1,70 +1,319 @@
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-        <style>
-        </style>
-        <meta charset="UFT-8">
-        <meta http-equiv="X-UA-Compatible" content ="IE=edge">
-        <title>index</title>
-    </head>
-    <body>
-        <div class="head">
-		<nav class="navbar">
-		<ul>
-            <li><a href="">ClearRoute</a></li>
-            <li><a href="">Route History</a></li>
-            <li><a href="">Saved Routes</a></li>
-            <li><a href="">Vehicles</a></li>
-        </ul>
-		</nav>
-		</div>
-        <div>
-            <table>
-                <tr>
-                    <td><h1>Route Search</h1></td>
-                </tr>
-                <tr>
-                    <td>Height</td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="height" size="50"></td>
-                </tr>
-                <tr>
-                    <td>Width</td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="width" size="50"></td>
-                </tr>
-                <tr>
-                    <td>Start</td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="start" size="50"></td>
-                </tr>
-                <tr>
-                    <td>End</td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="end" size="50"></td>
-                </tr>
-                <tr>
-                    <td>Save Vehicle</td>
-                </tr>
-                <tr>
-                    <td><select>
+<head>
+    <!-- CSS & DESIGN LINKS -->
+    <title>Leaflet OSRM Example</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;150;200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+
+    <!-- GRPAHHOPPER & LRM LINKS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="GraphHopper\leaflet-routing-machine-3.2.12\dist\leaflet-routing-machine.css" />
+</head>
+<body>
+    <header class="header">
+        <div class="top-bar">
+            <div class="top-bar_content">
+
+                <a href="#" class="title">
+                    <span>ClearRoute</span>
+                </a>
+
+                <a href="#" class="usericon">
+                    <label for="account-toggle">
+                        <img src="circle-user-regular.svg" alt="userlogo" class="userlogo_img">
+                    </label>
+                </a>
+
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Hidden checkboxes for popup control -->
+        <input type="checkbox" id="saved-route-toggle" class="popup-toggle">
+        <input type="checkbox" id="vehicles-toggle" class="popup-toggle">
+        <input type="checkbox" id="account-toggle" class="popup-toggle">
+        <input type="checkbox" id="login-register-toggle" class="popup-toggle">
+        <input type="checkbox" id="user-logged-in" class="user-state-toggle">
+
+        <div id="map"></div>
+
+        <div class="RouteSearch">
+            <form id="form" action="/">
+                <div class="entity">
+                    <h1>Route Search</h1>
+                </div>
+
+                <div class="inputs">
+                    <label for="height">Height</label>
+                    <input id="height" name="height" type="text" size="20">
+                </div>
+
+                <div class="inputs">
+                    <label for="weight">Weight</label>
+                    <input id="weight" name="weight" type="text" size="20">
+                </div>
+
+                <div class="inputs">
+                    <label for="width">Width</label>
+                    <input id="width" name="width" type="text" size="20">
+                </div>
+
+                <div class="inputs">
+                    <label for="vehicle">Saved Vehicles</label>
+                    <select>
                         <option value="route">route1</option>
                         <option value="route">route2</option>
                         <option value="route">route3</option>
-                    </select></td>
-                </tr>
-                <tr>
-                    <td><button>Get Directions</button></td>
-                </tr>
-            </table>
-        </div>
-        <script src="script.js">
-        </script>
+                    </select>
+                </div>
 
-    </body>
+                <div class="popup-buttons">
+                    <label for="saved-route-toggle" class="popup-btn">View Saved Routes</label>
+                    <label for="vehicles-toggle" class="popup-btn">Manage Vehicles</label>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Saved Route Pop-up -->
+        <div class="popup-overlay" id="saved-route-popup">
+            <label for="saved-route-toggle" class="popup-background"></label>
+
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h2>Saved Routes</h2>
+                    <label for="saved-route-toggle" class="close-btn">&times;</label>
+                </div>
+
+                <div class="popup-body">
+                    <div class="route-item">
+                        <h3>Home to Work</h3>
+                        <p>Distance: 15.2 km | Time: 22 min</p>
+                        <div class="route-actions">
+                            <button class="use-route-btn">Use Route</button>
+                            <button class="delete-route-btn">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="route-item">
+                        <h3>Downtown Shopping</h3>
+                        <p>Distance: 8.7 km | Time: 18 min</p>
+                        <div class="route-actions">
+                            <button class="use-route-btn">Use Route</button>
+                            <button class="delete-route-btn">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="route-item">
+                        <h3>Airport Route</h3>
+                        <p>Distance: 32.1 km | Time: 45 min</p>
+                        <div class="route-actions">
+                            <button class="use-route-btn">Use Route</button>
+                            <button class="delete-route-btn">Delete</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="popup-footer">
+                    <button class="add-new-btn">Save Current Route</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vehicles Pop-up -->
+        <div class="popup-overlay" id="vehicles-popup">
+            <label for="vehicles-toggle" class="popup-background"></label>
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h2>Vehicle Management</h2>
+                    <label for="vehicles-toggle" class="close-btn">&times;</label>
+                </div>
+
+                <div class="popup-body">
+                    <div class="vehicle-item">
+                        <h3>Semi Truck</h3>
+                        <p>Height: 4.1m | Weight: 40t | Width: 2.6m</p>
+                        <div class="vehicle-actions">
+                            <button class="select-vehicle-btn">Select</button>
+                            <button class="edit-vehicle-btn">Edit</button>
+                            <button class="delete-vehicle-btn">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="vehicle-item">
+                        <h3>Delivery Van</h3>
+                        <p>Height: 2.5m | Weight: 3.5t | Width: 2.0m</p>
+                        <div class="vehicle-actions">
+                            <button class="select-vehicle-btn">Select</button>
+                            <button class="edit-vehicle-btn">Edit</button>
+                            <button class="delete-vehicle-btn">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="vehicle-item">
+                        <h3>Personal Car</h3>
+                        <p>Height: 1.6m | Weight: 1.5t | Width: 1.8m</p>
+                        <div class="vehicle-actions">
+                            <button class="select-vehicle-btn">Select</button>
+                            <button class="edit-vehicle-btn">Edit</button>
+                            <button class="delete-vehicle-btn">Delete</button>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="popup-footer">
+                    <button class="add-new-btn">Add New Vehicle</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Pop-up (Login/Register or User Account) -->
+        <div class="popup-overlay" id="account-popup">
+            <label for="account-toggle" class="popup-background"></label>
+            
+            <!-- Login/Register Form (shown when not logged in) -->
+            <div class="popup-content login-register-content">
+                <div class="popup-header">
+                    <h2 class="auth-title">Welcome to ClearRoute</h2>
+                    <label for="account-toggle" class="close-btn">&times;</label>
+                </div>
+                <div class="auth-container">
+                    <!-- Login Form -->
+                    <div class="auth-form login-form">
+                        <h3>Login</h3>
+
+                        <div class="auth-inputs">
+                            <div class="inputs">
+                                <label for="login-email">Email</label>
+                                <input id="login-email" type="email" placeholder="Enter your email">
+                            </div>
+
+                            <div class="inputs">
+                                <label for="login-password">Password</label>
+                                <input id="login-password" type="password" placeholder="Enter your password">
+                            </div>
+
+                        </div>
+                        <label for="user-logged-in" class="btn auth-btn">Login</label>
+                        <p class="auth-switch">Don't have an account? <label for="login-register-toggle" class="switch-link">Register here</label></p>
+                    </div>
+                    
+                    <!-- Register Form -->
+                    <div class="auth-form register-form">
+                        <h3>Create Account</h3>
+                        <div class="auth-inputs">
+
+                            <div class="inputs">
+                                <label for="register-name">Full Name</label>
+                                <input id="register-name" type="text" placeholder="Enter your full name">
+                            </div>
+
+                            <div class="inputs">
+                                <label for="register-email">Email</label>
+                                <input id="register-email" type="email" placeholder="Enter your email">
+                            </div>
+
+                            <div class="inputs">
+                                <label for="register-password">Password</label>
+                                <input id="register-password" type="password" placeholder="Create a password">
+                            </div>
+
+                            <div class="inputs">
+                                <label for="register-confirm">Confirm Password</label>
+                                <input id="register-confirm" type="password" placeholder="Confirm your password">
+                            </div>
+
+                        </div>
+                        <label for="user-logged-in" class="btn auth-btn">Create Account</label>
+                        <p class="auth-switch">Already have an account? <label for="login-register-toggle" class="switch-link">Login here</label></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- User Account Page (shown when logged in) -->
+            <div class="popup-content user-account-content">
+                <div class="popup-header">
+                    <h2>My Account</h2>
+                    <label for="account-toggle" class="close-btn">&times;</label>
+                </div>
+                <div class="popup-body">
+
+                    <div class="user-info">
+                        <div class="user-avatar">
+                            <img src="circle-user-solid.svg" alt="User Avatar" class="avatar-img">
+                        </div>
+
+                        <div class="user-details">
+                            <h3>John Doe</h3>
+                            <p>john.doe@email.com</p>
+                            <p>Member since: January 2025</p>
+                        </div>
+                    </div>
+                    
+                    <div class="account-section">
+                        <h4>Route History</h4>
+                        <div class="route-history">
+                            <div class="history-item">
+                                <div class="history-info">
+                                    <h5>Home to Downtown Office</h5>
+                                    <p>January 14, 2025 - 8:30 AM</p>
+                                    <p>Distance: 12.5 km | Duration: 18 min</p>
+                                </div>
+                                <button class="reuse-route-btn">Use Again</button>
+                            </div>
+
+                            <div class="history-item">
+                                <div class="history-info">
+                                    <h5>Airport to Hotel</h5>
+                                    <p>January 12, 2025 - 3:45 PM</p>
+                                    <p>Distance: 28.7 km | Duration: 35 min</p>
+                                </div>
+                                <button class="reuse-route-btn">Use Again</button>
+                            </div>
+
+                            <div class="history-item">
+                                <div class="history-info">
+                                    <h5>Shopping Mall to Home</h5>
+                                    <p>January 10, 2025 - 6:20 PM</p>
+                                    <p>Distance: 9.2 km | Duration: 14 min</p>
+                                </div>
+                                <button class="reuse-route-btn">Use Again</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="account-section">
+                        <h4>Account Settings</h4>
+                        <div class="settings-actions">
+                            <button class="settings-btn">Edit Profile</button>
+                            <button class="settings-btn">Change Password</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="popup-footer">
+                    <label for="user-logged-in" class="logout-btn">Logout</label>
+                </div>
+            </div>
+
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script src="GraphHopper\leaflet-routing-machine-3.2.12\lrm-graphhopper-1.2.0.js"></script>
+    <script src="GraphHopper\leaflet-routing-machine-3.2.12\Polyline.encoded.js"></script>
+    <script src="script.js"></script> 
+
+    <!-- <script src="Control.Geocoder.js"></script>
+    <script src="config.js"></script>
+    <script src="index.js"></script> -->
+</body>
 </html>

@@ -1,0 +1,226 @@
+# ClearRoute Planner API
+
+This is a Node.js + MySQL Azure backend API. It supports user authentication, vehicle storage, location saving, and route creation with ordered stops.
+
+## Requirements
+
+- Node.js 18+
+- MySQL 8.x
+- An `.env` file with the following values:
+
+```
+DB_SERVER=your_mysql_host
+DB_USER=your_mysql_user
+DB_PASSWORD=your_mysql_password
+DB_NAME=clearrouteplanner
+JWT_SECRET=your_jwt_secret
+```
+
+## Setup
+
+1. Install dependencies:
+
+```
+npm install
+```
+
+2. Configure your `.env` file with your database credentials and JWT secret.
+
+3. Start the server:
+
+```
+node index.js
+```
+
+By default, the server runs at `http://localhost:3000`.
+
+## Testing the API
+
+You can test the API using:
+- The included `test.html` file (open in a browser)
+- Postman or Insomnia
+- curl commands
+
+## API Endpoints
+
+All endpoints require a valid JWT token except for `/auth/register` and `/auth/login`.
+
+---
+
+### Auth
+
+#### POST /auth/register
+
+Register a new user.
+
+Request body:
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "securePassword"
+}
+```
+
+---
+
+#### POST /auth/login
+
+Login and receive a JWT token.
+
+Request body:
+```json
+{
+  "email": "john@example.com",
+  "password": "securePassword"
+}
+```
+
+Response:
+```json
+{
+  "token": "your_jwt_token_here"
+}
+```
+
+---
+
+### Vehicles
+
+Requires `Authorization: Bearer <token>`
+
+#### GET /vehicles
+
+Fetch all vehicles for the logged-in user.
+
+---
+
+#### POST /vehicles
+
+Add a new vehicle.
+
+Request body:
+```json
+{
+  "name": "My Truck",
+  "height": 2.4,
+  "weightT": 5.0
+}
+```
+
+---
+
+#### PUT /vehicles/:id
+
+Update a vehicle.
+
+Request body:
+```json
+{
+  "name": "Updated Truck",
+  "height": 2.8,
+  "weightT": 6.1
+}
+```
+
+---
+
+#### DELETE /vehicles/:id
+
+Delete a vehicle.
+
+---
+
+### Locations
+
+Requires `Authorization: Bearer <token>`
+
+#### GET /locations
+
+Fetch all saved locations.
+
+---
+
+#### POST /locations
+
+Add a new location.
+
+Request body:
+```json
+{
+  "longitude": -123.123456,
+  "latitude": 49.123456
+}
+```
+
+Response:
+```json
+{
+  "locationId": 13
+}
+```
+
+---
+
+### Routes
+
+Requires `Authorization: Bearer <token>`
+
+#### GET /routes
+
+Get all routes (and their stops) for the logged-in user.
+
+Response:
+```json
+[
+  {
+    "RouteID": 1,
+    "RouteName": "Morning Route",
+    "StopNum": 1,
+    "LocationID": 5,
+    "Longitude": -123.1234,
+    "Latitude": 49.1234
+  },
+  ...
+]
+```
+
+---
+
+#### POST /routes
+
+Create a new route with associated stops.
+
+Request body:
+```json
+{
+  "name": "Morning Route",
+  "stops": [
+    { "stopNum": 1, "locationId": 10 },
+    { "stopNum": 2, "locationId": 15 }
+  ]
+}
+```
+
+Response:
+```json
+{
+  "routeId": 42
+}
+```
+
+
+---
+
+## Technologies Used
+
+- Node.js and Express
+- MySQL with MySQL2 driver
+- JWT for token-based authentication
+- bcryptjs for password hashing
+- dotenv for config
+- CORS for frontend access
+
+---
+
+
