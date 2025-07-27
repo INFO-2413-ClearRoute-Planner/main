@@ -23,6 +23,7 @@ body {
 .header {
     position: fixed; 
     width: 100%;
+    z-index: 2;
 }
 
 .top-bar {
@@ -111,6 +112,7 @@ body {
     margin-top: 50px; /* Add top spacing */
     margin-left: 50px; /* Add left spacing */
     align-self: flex-start; /* Align to the top-left */
+    z-index:2;
 }
 .entity{
     color: #fff;
@@ -680,4 +682,14 @@ body {
     .nav_link {
         font-size: 12px;
     }
+}
+
+/* MAP STYLING */
+#map {
+    position: fixed;         /* Make map fill the viewport */
+    z-index: 1;             /* Send it behind all UI */
+    left: 0;
+    width: 100%;
+    top: 8.5%;
+    height: 91%;
 }

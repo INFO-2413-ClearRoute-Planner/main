@@ -1,1 +1,9 @@
-GraphHopper/data/british-columbia-latest.osm.pbf
+# Ignore environment config
+.env
+
+# Ignore node modules
+node_modules/
+
+GraphHopper/data/logs/graphhopper.log
+GraphHopper/data/kazakhstan-latest.osm.pbf
+GraphHopper/data/mazowieckie-latest.osm.pbf
