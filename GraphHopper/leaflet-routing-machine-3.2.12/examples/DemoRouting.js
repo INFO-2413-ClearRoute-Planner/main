@@ -102,7 +102,7 @@ let control = L.Routing.control(L.extend(window.lrmConfig, {
 	}),
 
     router: customRouter,
-	geocoder: L.Control.Geocoder.nominatim(),
+	// geocoder: L.Control.Geocoder.nominatim(),
 	routeWhileDragging: false,
 	reverseWaypoints: true,
 	showAlternatives: true,
@@ -116,6 +116,28 @@ let control = L.Routing.control(L.extend(window.lrmConfig, {
 })).addTo(map);
 
 L.Routing.errorControl(control).addTo(map);
+
+//create popup with buttons to set start and destination waypoints
+map.on('click', function(e) {
+    var container = L.DomUtil.create('div'),
+        startBtn = createButton('Start from this location', container),
+        destBtn = createButton('Go to this location', container);
+    //popup
+    L.popup()
+        .setContent(container)
+        .setLatLng(e.latlng)
+        .openOn(map);
+    //start button
+    L.DomEvent.on(startBtn, 'click', function() {
+        control.spliceWaypoints(0, 1, e.latlng);
+        map1.closePopup();
+    });
+    //destination button
+    L.DomEvent.on(destBtn, 'click', function() {
+        control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
+        map1.closePopup();
+    });
+});
 
 document.getElementById("form").addEventListener("submit", function (e) {
     e.preventDefault(); // stop the page from reloading
@@ -161,3 +183,4 @@ document.getElementById("form").addEventListener("submit", function (e) {
     // Reattach the error control (optional)
     L.Routing.errorControl(control).addTo(map);
 });
+
