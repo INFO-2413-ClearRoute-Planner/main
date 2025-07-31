@@ -4,8 +4,6 @@
     <title>Leaflet OSRM Example</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;150;200;300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -16,6 +14,8 @@
     <!-- GRPAHHOPPER & LRM LINKS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <link rel="stylesheet" href="GraphHopper\leaflet-routing-machine-3.2.12\dist\leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
 </head>
 <body>
     <header class="header">
@@ -212,27 +212,31 @@
                         <div class="auth-inputs">
 
                             <div class="inputs">
-                                <label for="register-name">Full Name</label>
-                                <input id="register-name" type="text" placeholder="Enter your full name">
+                                <label for="registerName">Full Name</label>
+                                <input id="registerName" type="text" onkeyup="validateInput()" placeholder="Enter your full name">
+                                <span id="nameError" style="color:red;"></span>
+                            </div>
+                        
+                            <div class="inputs">
+                                <label for="registerEmail">Email</label>
+                                <input id="registerEmail" type="email" onkeyup="validateInput()" placeholder="Enter your email">
+                                <span id="emailError" style="color:red;"></span>
                             </div>
 
                             <div class="inputs">
-                                <label for="register-email">Email</label>
-                                <input id="register-email" type="email" placeholder="Enter your email">
+                                <label for="registerPassword">Password</label>
+                                <input id="registerPassword" type="password" onkeyup="validateInput()" placeholder="Create a password">
+                                <span id="passwordError" style="color:red;"></span>
                             </div>
 
                             <div class="inputs">
-                                <label for="register-password">Password</label>
-                                <input id="register-password" type="password" placeholder="Create a password">
-                            </div>
-
-                            <div class="inputs">
-                                <label for="register-confirm">Confirm Password</label>
-                                <input id="register-confirm" type="password" placeholder="Confirm your password">
+                                <label for="registerConfirm">Confirm Password</label>
+                                <input id="registerConfirm" type="password" onkeyup="validateInput()" placeholder="Confirm your password">
+                                <span id="confirmPassError" style="color:red;"></span>
                             </div>
 
                         </div>
-                        <label for="user-logged-in" class="btn auth-btn">Create Account</label>
+                        <label for="user-logged-in" class="btn auth-btn" onclick="">Create Account</label>
                         <p class="auth-switch">Already have an account? <label for="login-register-toggle" class="switch-link">Login here</label></p>
                     </div>
                 </div>
@@ -307,13 +311,21 @@
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <!-- <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script> -->
+    <script src="GraphHopper/leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="GraphHopper\leaflet-routing-machine-3.2.12\lrm-graphhopper-1.2.0.js"></script>
+    
+    <script src="GraphHopper/leaflet-routing-machine-3.2.12/examples/Control.Geocoder.js"></script>
+    <!-- <script src="script.js"></script>  -->
+    <script src="GraphHopper/leaflet-routing-machine-3.2.12/examples/config.js"></script>
+    <script src="https://unpkg.com/@mapbox/polyline@1.1.1/src/polyline.js"></script>
+    <script src="GraphHopper/leaflet-routing-machine-3.2.12/examples/DemoRouting.js"></script>
     <script src="GraphHopper\leaflet-routing-machine-3.2.12\Polyline.encoded.js"></script>
-    <script src="script.js"></script> 
+
 
     <!-- <script src="Control.Geocoder.js"></script>
     <script src="config.js"></script>
     <script src="index.js"></script> -->
+    
 </body>
 </html>
