@@ -85,7 +85,8 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 var customRouter = new L.Routing.CustomGraphHopper('', { // create instance of custom router
     serviceUrl: 'http://localhost:8989/route', 
-    profile: 'truck1'
+    profile: 'truck1',
+    heightLimit: 1.2
 });
 
 let control = L.Routing.control(L.extend(window.lrmConfig, {
@@ -94,15 +95,8 @@ let control = L.Routing.control(L.extend(window.lrmConfig, {
 		L.latLng(49.25, -122.97)
 	],
 
-	router: L.Routing.graphHopper('', {
-		serviceUrl: 'http://localhost:8989/route',
-		urlParameters:{
-			profile: 'truck1'
-		}
-	}),
-
     router: customRouter,
-	// geocoder: L.Control.Geocoder.nominatim(),
+	geocoder: L.Control.Geocoder.nominatim(),
 	routeWhileDragging: false,
 	reverseWaypoints: true,
 	showAlternatives: true,
