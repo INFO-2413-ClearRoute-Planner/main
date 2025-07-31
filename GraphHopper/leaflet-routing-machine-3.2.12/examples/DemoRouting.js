@@ -25,7 +25,7 @@ L.Routing.CustomGraphHopper = L.Class.extend({
                 priority: [
                     {
                         if: `max_height < ${heightLimit}`,
-                        multiply_by: "0",
+                        multiply_by: "0"
                     }
                 ]
             },
