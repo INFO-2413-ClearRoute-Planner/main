@@ -51,7 +51,7 @@ L.Routing.CustomGraphHopper = L.Class.extend({
                     totalDistance: data.paths[0].distance, // in meters
                     totalTime: data.paths[0].time // in milliseconds
                 },
-                instructions: [], // skipping turn-by-turn instructions for now
+                instructions: data.paths[0].instructions || [],
                 inputWaypoints: waypoints,
                 actualWaypoints: (
                     data.paths[0].snapped_waypoints &&
