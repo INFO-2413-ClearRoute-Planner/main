@@ -13,7 +13,7 @@ L.Routing.CustomGraphHopper = L.Class.extend({
         const points = waypoints.map(wp => [wp.latLng.lng, wp.latLng.lat]);
 
         // Extract the height limit from options, default to 5 meters if not provided
-        const heightLimit = this.options.heightLimit || 5;
+        const heightLimit = this.options.heightLimit || 1;
 
 
         // Build the body for the POST request, including custom_model
