@@ -26,6 +26,7 @@ L.Routing.CustomGraphHopper = L.Class.extend({
                     {
                         if: `max_height < ${heightLimit}`,
                         multiply_by: "0"
+                        
                     }
                 ]
             },
@@ -49,7 +50,7 @@ L.Routing.CustomGraphHopper = L.Class.extend({
                 coordinates: coords, // the route geometry
                 summary: {
                     totalDistance: data.paths[0].distance, // in meters
-                    totalTime: data.paths[0].time // in milliseconds
+                    totalTime: data.paths[0].time / 1000 // in milliseconds / 1000 to convert to seconds    
                 },
                 instructions: data.paths[0].instructions || [],
                 inputWaypoints: waypoints,
@@ -75,6 +76,7 @@ L.Routing.CustomGraphHopper = L.Class.extend({
             });
         });
     }
+    
 });
 
 var map = L.map('map');
@@ -107,9 +109,11 @@ let control = L.Routing.control(L.extend(window.lrmConfig, {
 			{color: 'blue', opacity: 0.5, weight: 2}
 		]
 	}
+
+    
 })).addTo(map);
 
-L.Routing.errorControl(control).addTo(map);
+let errorControl = L.Routing.errorControl(control).addTo(map);
 
 //create popup with buttons to set start and destination waypoints
 map.on('click', function(e) {
@@ -135,14 +139,14 @@ map.on('click', function(e) {
 
 // Store saved routes data for functionality
 const savedRoutes = [
-    { name: "Home to Work", distance: "15.2 km", time: "22 min", height: 4.1 },
+    { name: "Home to Work", distance: "15.2 km", time: "22 min", height: 5.2 },
     { name: "Downtown Shopping", distance: "8.7 km", time: "18 min", height: 2.8 },
     { name: "Airport Route", distance: "32.1 km", time: "45 min", height: 5.2 }
 ];
 
 // Store saved vehicles data for functionality
 const savedVehicles = [
-    { name: "Semi Truck", height: 4.1, weight: 40, width: 2.6 },
+    { name: "Semi Truck", height: 5.2, weight: 40, width: 2.6 },
     { name: "Delivery Van", height: 2.5, weight: 3.5, width: 2.0 },
     { name: "Personal Car", height: 1.6, weight: 1.5, width: 1.8 }
 ];
@@ -162,10 +166,19 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function() {
             // Get the height value for this route
             const routeHeight = savedRoutes[index].height;
+            const routeWeight = savedRoutes[index].weight;
+            const routeWidth = savedRoutes[index].width;
+
             
             // Populate the height input field
             const heightInput = document.querySelector("input[name='heightIn']");
             heightInput.value = routeHeight;
+            // Populate the weight input field
+            const weightInput = document.querySelector("input[name='weightIn']");
+            weightInput.value = routeWeight;
+            // Populate the width input field
+            const widthInput = document.querySelector("input[name='widthIn']");
+            widthInput.value = routeWidth;
             
             // Close the popup
             document.getElementById('saved-route-toggle').checked = false;
@@ -196,10 +209,19 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function() {
             // Get the height value for this vehicle
             const vehicleHeight = savedVehicles[index].height;
+            const vehicleWeight = savedVehicles[index].weight;
+            const vehicleWidth = savedVehicles[index].width;
+
             
             // Populate the height input field
             const heightInput = document.querySelector("input[name='heightIn']");
             heightInput.value = vehicleHeight;
+            // Populate the weight input field
+            const weightInput = document.querySelector("input[name='weightIn']");
+            weightInput.value = vehicleWeight;
+            // Populate the width input field
+            const widthInput = document.querySelector("input[name='widthIn']");
+            widthInput.value = vehicleWidth;
             
             // Update the vehicle dropdown to show selected vehicle
             const vehicleSelect = document.querySelector('select');
@@ -211,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('vehicles-toggle').checked = false;
             
             // Show confirmation message
-            alert(`Vehicle "${savedVehicles[index].name}" selected with height limit: ${vehicleHeight}m`);
+            // alert(`Vehicle "${savedVehicles[index].name}" selected with height limit: ${vehicleHeight}m`);
         });
     });
     
@@ -260,14 +282,29 @@ document.getElementById("form").addEventListener("submit", function (e) {
 
     const heightInput = document.querySelector("input[name='heightIn']").value;
     const height = parseFloat(heightInput);
+    // const weightInput = document.querySelector("input[name='weightIn']").value;
+    // const weight = parseFloat(weightInput);
+    // const widthInput = document.querySelector("input[name='widthIn']").value;
+    // const width = parseFloat(heightInput);
 
     if (isNaN(height)) {
         alert("Please enter a valid height in meters.");
         return;
     }
+    // else if (isNaN(weight)) {
+    //     alert("Please enter a valid weight in tons.");
+    //     return;
+    // }else if (isNaN(width)) {
+    //     alert("Please enter a valid width in meters.");
+    //     return;
+    // }
 
     // Remove old control from map
     map.removeControl(control);
+
+    if (errorControl) {
+        map.removeControl(errorControl);
+    }
 
     // Create a new custom router with the height limit
     const newCustomRouter = new L.Routing.CustomGraphHopper('', {
@@ -296,7 +333,7 @@ document.getElementById("form").addEventListener("submit", function (e) {
         }
     }).addTo(map);
 
-    // Reattach the error control (optional)
-    L.Routing.errorControl(control).addTo(map);
+    //reattach the error control
+    errorControl = L.Routing.errorControl(control).addTo(map);
 });
 
