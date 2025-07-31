@@ -187,6 +187,27 @@ body {
     border-color: rgba(255, 255, 255, 0.3);
  }
 
+ /* Style submit button to match popup buttons */
+ #submit {
+    background-color: rgba(30, 144, 255, 0.8);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    flex: 1;
+    min-width: 100px;
+ }
+
+ #submit:hover {
+    background-color: #1e90ff;
+    border-color: rgba(255, 255, 255, 0.3);
+ }
+
 #form button {
     color: white;
     font-size: 12px;
@@ -690,6 +711,6 @@ body {
     z-index: 1;             /* Send it behind all UI */
     left: 0;
     width: 100%;
-    top: 8.5%;
-    height: 91%;
+    top: 50px;              /* Match header height exactly */
+    height: calc(100vh - 50px); /* Fill remaining viewport height */
 }
