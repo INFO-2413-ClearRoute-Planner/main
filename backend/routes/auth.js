@@ -1,7 +1,11 @@
 // routes/auth.js
+
 const express = require('express');
 const bcrypt  = require('bcryptjs');
 const jwt     = require('jsonwebtoken');
+const auth    = require('../middleware/auth');
+const pool = require('../db'); // 
+
 require('dotenv').config();
 
 const { findUserByName, createUser } = require('../models/userModel');
@@ -28,7 +32,7 @@ router.post('/register', async (req, res) => {
     res.status(201).json({ message: 'User registered' });
   } catch (err) {
     //catch all
-    console.error('❌ Register error:', err);
+    console.error('Register error:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -56,5 +60,24 @@ const user = result[0]; //return array with user being index 1
   );
   res.json({ token });
 });
+
+//Allows fetching of logged in user
+router.get('/me', auth, async (req, res) => {
+  //try to connect to db and find user
+  try {
+    const [rows] = await pool.execute(
+      'SELECT ID, Name, Email FROM User WHERE ID = ?',
+      [req.user.userId]
+    );
+
+    if (rows.length === 0) return res.status(404).json({ error: 'User not found' }); //if nothing is returned, there is no user logged in
+
+    res.json(rows[0]);
+  } catch (err) { //catching errors
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 module.exports = router;

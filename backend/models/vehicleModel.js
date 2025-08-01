@@ -4,33 +4,33 @@ const pool = require('../db');
 // Fetch all vehicles for a user
 async function getVehiclesByUserId(userId) {
   const [rows] = await pool.execute(
-    // use Height and WeightT as they’re spelled in the schema
-    'SELECT VehicleID, Name, Height, WeightT FROM Vehicle WHERE UserID = ?',
+    'SELECT VehicleID, Name, Height, WeightT, width FROM Vehicle WHERE UserID = ?',
     [userId]
   );
   return rows;
 }
 
 //Insert a new vehicle
-async function createVehicle(userId, name, height, weightT) {
+async function createVehicle(userId, name, height, weightT, width) {
   const [result] = await pool.execute(
-    'INSERT INTO Vehicle (UserID, Name, Height, WeightT) VALUES (?, ?, ?, ?)',
-    [userId, name, height ?? null, weightT ?? null]
+    'INSERT INTO Vehicle (UserID, Name, Height, WeightT, width) VALUES (?, ?, ?, ?, ?)',
+    [userId, name, height ?? null, weightT ?? null, width ?? null]
   );
   return result.insertId;
 }
 
 
 //Update an existing vehicle
-async function updateVehicle(vehicleId, userId, name, height, weightT) {
+async function updateVehicle(vehicleId, userId, name, height, weightT, width) { 
   await pool.execute(
     `UPDATE Vehicle
      SET Name   = ?,
          Height = ?,
-         WeightT= ?
+         WeightT= ?,
+         Width  = ?
      WHERE VehicleID = ?
        AND UserID    = ?`,
-    [name, height, weightT, vehicleId, userId]
+    [name, height, weightT, width, vehicleId, userId]
   );
 }
 

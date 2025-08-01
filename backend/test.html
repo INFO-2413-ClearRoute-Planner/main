@@ -18,15 +18,34 @@
   <button onclick="login()">Login</button>
   <p>Token: <span id="tokenDisplay"></span></p>
 
+  <h2>Get My User Info</h2>
+<button onclick="getMyUserInfo()">Fetch My Info</button>
+
+
   <h2>Add Vehicle</h2>
   <input id="vehMake" placeholder="Make">
   <input id="vehModel" placeholder="Model">
   <input id="vehHeight" placeholder="Height (m)" type="number" step="0.01">
   <input id="vehWeight" placeholder="Weight (kg)" type="number">
+  <input id="vehWidth" placeholder="Width (m)" type="number" step="0.01">
+
   <button onclick="addVehicle()">Add Vehicle</button>
 
   <h2>Get Vehicles</h2>
   <button onclick="getVehicles()">Fetch Vehicles</button>
+
+<h2>Edit Vehicle</h2>
+<input id="editVehicleId" placeholder="Vehicle ID" type="number">
+<input id="editVehicleName" placeholder="Name">
+<input id="editVehicleHeight" placeholder="Height (m)" type="number" step="0.01">
+<input id="editVehicleWeight" placeholder="Weight (kg)" type="number" step="0.01">
+<input id="editVehicleWidth" placeholder="Width (m)" type="number" step="0.01">
+<button onclick="editVehicle()">Update Vehicle</button>
+
+
+  <h2>Delete Vehicle</h2>
+<input id="deleteVehicleId" placeholder="Vehicle ID to delete" type="number">
+<button onclick="deleteVehicle()">Delete Vehicle</button>
 
   <h2>Create Route</h2>
   <input id="start" placeholder="Start Location">
@@ -52,7 +71,7 @@
 
 
   <script>
-    let apiBase = 'http://localhost:3000'; // Change if deployed
+    let apiBase = 'http://localhost:3000'; 
     let token = '';
 
     function showOutput(data) {
@@ -96,9 +115,10 @@ async function addVehicle() {
       'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify({
-      name: document.getElementById('vehMake').value, // ← goes into "Name"
+      name: document.getElementById('vehMake').value, // goes into "Name"
       height: parseFloat(document.getElementById('vehHeight').value) || null,
-      weightT: parseFloat(document.getElementById('vehWeight').value) || null  // ← this must be weightT
+      weightT: parseFloat(document.getElementById('vehWeight').value) || null,  // this must be weightT
+      width: parseFloat(document.getElementById('vehWidth').value) || null
     })
   });
 
@@ -125,6 +145,63 @@ async function addVehicle() {
     showOutput({ error: err.message });
   }
 }
+
+async function deleteVehicle() {
+  const vehicleId = parseInt(document.getElementById('deleteVehicleId').value, 10);
+  if (isNaN(vehicleId)) {
+    showOutput({ error: 'Please enter a valid vehicle ID' });
+    return;
+  }
+
+  const res = await fetch(`${apiBase}/vehicles/${vehicleId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  if (res.status === 204) {
+    showOutput({ message: `Vehicle ${vehicleId} deleted successfully.` });
+  } else {
+    const err = await res.text();
+    showOutput({ error: `Failed to delete vehicle: ${res.status} - ${err}` });
+  }
+}
+
+async function editVehicle() {
+const vehicleId = parseInt(document.getElementById('editVehicleId').value, 10);
+  const name = document.getElementById('editVehicleName').value;
+  const heightRaw = document.getElementById('editVehicleHeight').value;
+  const weightRaw = document.getElementById('editVehicleWeight').value;
+  const widthRaw = document.getElementById('editVehicleWidth').value;
+
+  // Parse as float or set to null explicitly
+  const height = heightRaw === '' ? null : parseFloat(heightRaw);
+  const weightT = weightRaw === '' ? null : parseFloat(weightRaw);
+  const width = widthRaw === '' ? null : parseFloat(widthRaw);
+
+  if (isNaN(vehicleId) || !name) {
+    showOutput({ error: 'Please enter a valid vehicle ID and name' });
+    return;
+  }
+
+  const res = await fetch(`${apiBase}/vehicles/${vehicleId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ name, height, weightT, width })
+  });
+
+  if (res.status === 204) {
+    showOutput({ message: `Vehicle ${vehicleId} updated successfully.` });
+  } else {
+    const err = await res.text();
+    showOutput({ error: `Failed to update vehicle: ${res.status} - ${err}` });
+  }
+}
+
 
 async function getRoutes() {
   try {
@@ -180,6 +257,16 @@ async function getUserLocations() {
   });
   showOutput(await res.json());
 }
+
+async function getMyUserInfo() {
+  const res = await fetch('http://localhost:3000/auth/me', {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+  const data = await res.json();
+  showOutput(data);
+}
+
 
 
   </script>

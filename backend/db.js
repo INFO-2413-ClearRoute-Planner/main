@@ -11,12 +11,11 @@ const pool = mysql.createPool({
   user:     process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  waitForConnections: true,               // queue up if no free conn
-  connectionLimit: 10,                    // max simultaneous conns
+  waitForConnections: true,               // queue up if no free connection
+  connectionLimit: 10,                    // max simultaneous connections
   queueLimit: 0,
   ssl: {
-    // this flag tells the client “use TLS but don’t validate the server cert”
-    rejectUnauthorized: false
+    rejectUnauthorized: false             //flag tells the client to not check server cert
   }
 });
 

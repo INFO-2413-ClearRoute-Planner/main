@@ -9,7 +9,7 @@ DB_PASSWORD=your-db-password
 DB_NAME=your-db-name
 PORT=3000
 JWT_SECRET=super-secret-key
-3) run "cd ./backend/index.js" to start 
+3) run "node index.js" from "./backend/" to start 
 4) open a new terminal and run 
 "cd C:\Users\Jared\Documents\ClearRoutePlanner\main\GraphHopper\data
 

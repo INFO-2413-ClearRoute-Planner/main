@@ -19,15 +19,15 @@ router.get('/', auth, async (req, res) => {
 
 // POST /vehicles
 router.post('/', auth, async (req, res) => {
-  const { name, height, weightT } = req.body;
-  const id = await createVehicle(req.user.userId, name, height, weightT);
+  const { name, height, weightT, width } = req.body;
+  const id = await createVehicle(req.user.userId, name, height, weightT, width);
   res.status(201).json({ vehicleId: id });
 });
 
 // PUT /vehicles/:id
 router.put('/:id', auth, async (req, res) => {
-  const { name, heightm, weightt } = req.body;
-  await updateVehicle(parseInt(req.params.id,10), req.user.userId, name, heightm, weightt);
+  const { name, height, weightT, width } = req.body;
+  await updateVehicle(parseInt(req.params.id,10), req.user.userId, name, height, weightT, width);
   res.sendStatus(204);
 });
 
