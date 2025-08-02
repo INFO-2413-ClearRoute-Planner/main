@@ -16,17 +16,30 @@ router.get('/', auth, async (req, res) => {
 });
 
 // POST /routes
-// body: { name: string, stops: [ { stopNum, locationId }, ... ] }
 router.post('/', auth, async (req, res) => {
-  const { name, stops } = req.body;
-  const routeId = await createRoute(req.user.userId, name);
+  let { name, stops } = req.body;
 
-  // insert stops
-  for (let s of stops) {
-    await addStop(routeId, s.stopNum, s.locationId);
+  if (!name || !Array.isArray(stops) || stops.length === 0) {
+    return res.status(400).json({ error: 'Route name and at least one stop are required' });
   }
 
-  res.status(201).json({ routeId });
+  // sanitize
+  stops = stops.map((s, i) => ({
+    stopNum: s.stopNum ?? i + 1,
+    locationId: parseInt(s.locationId, 10)
+  })).filter(s => !isNaN(s.locationId));
+
+  try {
+    const routeId = await createRoute(req.user.userId, name);
+    for (let stop of stops) {
+      await addStop(routeId, stop.stopNum, stop.locationId);
+    }
+    res.status(201).json({ routeId });
+  } catch (err) {
+    console.error('Failed to create route:', err);
+    res.status(500).json({ error: 'Server error creating route' });
+  }
 });
+
 
 module.exports = router;

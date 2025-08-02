@@ -18,13 +18,15 @@ async function getRoutesByUserId(userId) {
 }
 
 // create the base route
+
 async function createRoute(userId, name) {
   const [result] = await pool.execute(
-    'INSERT INTO Route (UserID, Name) VALUES (?,?)',
+    'INSERT INTO Route (UserID, Name) VALUES (?, ?)',
     [userId, name]
   );
   return result.insertId;
 }
+
 
 module.exports = {
   getRoutesByUserId,
