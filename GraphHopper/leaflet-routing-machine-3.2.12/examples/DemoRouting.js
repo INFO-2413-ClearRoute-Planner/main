@@ -31,8 +31,11 @@ L.Routing.CustomGraphHopper = L.Class.extend({
         // Convert waypoints from L.LatLng objects to [lon, lat] pairs (GraphHopper format)
         const points = waypoints.map(wp => [wp.latLng.lng, wp.latLng.lat]);
 
-        // Extract the height limit from options, default to 1 meter if not provided
-        const heightLimit = this.options.heightLimit || 1;
+        // Extract the height limit from options, default to 1 meters if not provided
+        const heightLimit = this.options.heightLimit || 1; //1m
+        const weightLimit = this.options.weightLimit || 0; //1t
+        const widthLimit = this.options.widthLimit || 1; //1m
+
 
         // Build the request body with custom routing model for vehicle constraints
         const body = {
@@ -44,7 +47,15 @@ L.Routing.CustomGraphHopper = L.Class.extend({
                     {
                         // Avoid routes with height restrictions lower than vehicle height
                         if: `max_height < ${heightLimit}`,
-                        multiply_by: "0" // Block these routes completely
+                        multiply_by: "0"
+                    },
+                    {
+                        if: `max_weight < ${weightLimit}`,
+                        multiply_by: "0"
+                    },
+                    {
+                        if: `max_width < ${widthLimit}`,
+                        multiply_by: "0"
                     }
                 ]
             },
