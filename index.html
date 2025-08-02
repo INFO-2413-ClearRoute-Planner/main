@@ -1,57 +1,94 @@
 <html lang="en">
 <head>
-    <!-- CSS & DESIGN LINKS -->
+    <!-- ============================================
+         CSS & DESIGN LINKS
+         ============================================ -->
     <title>Leaflet OSRM Example</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <!-- Google Fonts - Inter font family for consistent typography -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;150;200;300;400;500;600;700&display=swap"
         rel="stylesheet">
+    
+    <!-- Font Awesome icons for UI elements -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Custom application styles -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- GRPAHHOPPER & LRM LINKS -->
+    <!-- ============================================
+         GRAPHHOPPER & LEAFLET ROUTING MACHINE LINKS
+         ============================================ -->
+    <!-- Leaflet CSS for map functionality -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    
+    <!-- Leaflet Routing Machine CSS for routing controls -->
     <link rel="stylesheet" href="GraphHopper\leaflet-routing-machine-3.2.12\dist\leaflet-routing-machine.css" />
+    
+    <!-- Leaflet Control Geocoder CSS for address search -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 
 </head>
 <body>
+    <!-- ============================================
+         HEADER SECTION
+         Contains the main navigation and branding
+         ============================================ -->
     <header class="header">
         <div class="top-bar">
             <div class="top-bar_content">
-
+                <!-- Application branding/logo -->
                 <a href="#" class="title">
                     <span>ClearRoute</span>
                 </a>
 
+                <!-- User account access button -->
                 <a href="#" class="usericon">
                     <label for="account-toggle">
                         <img src="circle-user-regular.svg" alt="userlogo" class="userlogo_img">
                     </label>
                 </a>
-
             </div>
         </div>
     </header>
 
     <div class="container">
-        <!-- Hidden checkboxes for popup control -->
+        <!-- ============================================
+             POPUP CONTROL SYSTEM
+             Hidden checkboxes that control popup visibility
+             Uses CSS :checked selector for state management
+             ============================================ -->
         <input type="checkbox" id="saved-route-toggle" class="popup-toggle">
         <input type="checkbox" id="vehicles-toggle" class="popup-toggle">
         <input type="checkbox" id="account-toggle" class="popup-toggle">
         <input type="checkbox" id="login-register-toggle" class="popup-toggle">
         <input type="checkbox" id="user-logged-in" class="user-state-toggle">
+        <input type="checkbox" id="add-vehicle-toggle" class="popup-toggle">
+        <input type="checkbox" id="edit-vehicle-toggle" class="popup-toggle">
+        <input type="checkbox" id="delete-vehicle-toggle" class="popup-toggle">
 
+        <!-- ============================================
+             MAP CONTAINER
+             Main interactive map area for routing
+             ============================================ -->
         <div id="map"></div>
+
+        <!-- ============================================
+             ROUTE SEARCH PANEL
+             Fixed position panel for vehicle parameters and routing
+             ============================================ -->
 
         <div class="RouteSearch">
             <form id="form" action="/">
+                <!-- Panel title -->
                 <div class="entity">
                     <h1>Route Search</h1>
                 </div>
 
+                <!-- Vehicle dimension inputs for routing constraints -->
                 <div class="inputs">
                     <label for="height">Height</label>
                     <input id="height" name="heightIn" type="text" size="20">
@@ -61,6 +98,7 @@
                     <input id="width" name="widthIn" type="text" size="20">
                 </div>
 
+                <!-- Saved routes dropdown selection -->
                 <div class="inputs">
                     <label for="vehicle">Saved Routes</label>
                     <select>
@@ -70,6 +108,7 @@
                     </select>
                 </div>
 
+                <!-- Action buttons for routing and popup management -->
                 <div class="popup-buttons">
                     <input type="submit" id="submit" value="Route With Limits">
                     <label for="saved-route-toggle" class="popup-btn">View Saved Routes</label>
@@ -78,18 +117,24 @@
             </form>
         </div>
         
-        <!-- Saved Route Pop-up -->
+        <!-- ============================================
+             SAVED ROUTES POPUP
+             Modal for viewing, using, and managing saved routes
+             ============================================ -->
         <div class="popup-overlay" id="saved-route-popup">
+            <!-- Background overlay - clicking closes popup -->
             <label for="saved-route-toggle" class="popup-background"></label>
 
             <div class="popup-content">
+                <!-- Popup header with title and close button -->
                 <div class="popup-header">
                     <h2>Saved Routes</h2>
                     <label for="saved-route-toggle" class="close-btn">&times;</label>
                 </div>
 
+                <!-- List of saved routes with details and actions -->
                 <div class="popup-body">
-                    <div class="route-item">
+                    <div class="route-item" data-route-id="0">
                         <h3>Home to Work</h3>
                         <p>Distance: 15.2 km | Time: 22 min</p>
                         <div class="route-actions">
@@ -98,7 +143,7 @@
                         </div>
                     </div>
 
-                    <div class="route-item">
+                    <div class="route-item" data-route-id="1">
                         <h3>Downtown Shopping</h3>
                         <p>Distance: 8.7 km | Time: 18 min</p>
                         <div class="route-actions">
@@ -107,7 +152,7 @@
                         </div>
                     </div>
 
-                    <div class="route-item">
+                    <div class="route-item" data-route-id="2">
                         <h3>Airport Route</h3>
                         <p>Distance: 32.1 km | Time: 45 min</p>
                         <div class="route-actions">
@@ -117,23 +162,31 @@
                     </div>
 
                 </div>
+                
+                <!-- Footer with save current route action -->
                 <div class="popup-footer">
                     <button class="add-new-btn">Save Current Route</button>
                 </div>
             </div>
         </div>
 
-        <!-- Vehicles Pop-up -->
+        <!-- ============================================
+             VEHICLE MANAGEMENT POPUP
+             Modal for viewing, selecting, and managing vehicles
+             ============================================ -->
         <div class="popup-overlay" id="vehicles-popup">
+            <!-- Background overlay - clicking closes popup -->
             <label for="vehicles-toggle" class="popup-background"></label>
             <div class="popup-content">
+                <!-- Popup header with title and close button -->
                 <div class="popup-header">
                     <h2>Vehicle Management</h2>
                     <label for="vehicles-toggle" class="close-btn">&times;</label>
                 </div>
 
+                <!-- List of saved vehicles with specifications and actions -->
                 <div class="popup-body">
-                    <div class="vehicle-item">
+                    <div class="vehicle-item" data-vehicle-id="0">
                         <h3>Semi Truck</h3>
                         <p>Height: 5.2m | Weight: 40t | Width: 2.6m</p>
                         <div class="vehicle-actions">
@@ -143,7 +196,7 @@
                         </div>
                     </div>
 
-                    <div class="vehicle-item">
+                    <div class="vehicle-item" data-vehicle-id="1">
                         <h3>Delivery Van</h3>
                         <p>Height: 2.5m | Weight: 3.5t | Width: 2.0m</p>
                         <div class="vehicle-actions">
@@ -153,7 +206,7 @@
                         </div>
                     </div>
 
-                    <div class="vehicle-item">
+                    <div class="vehicle-item" data-vehicle-id="2">
                         <h3>Personal Car</h3>
                         <p>Height: 1.6m | Weight: 1.5t | Width: 1.8m</p>
                         <div class="vehicle-actions">
@@ -164,13 +217,149 @@
                     </div>
                     
                 </div>
+                
+                <!-- Footer with add new vehicle action -->
                 <div class="popup-footer">
-                    <button class="add-new-btn">Add New Vehicle</button>
+                    <label for="add-vehicle-toggle" class="add-new-btn">Add New Vehicle</label>
                 </div>
             </div>
         </div>
 
-        <!-- Account Pop-up (Login/Register or User Account) -->
+        <!-- ============================================
+             ADD NEW VEHICLE POPUP
+             Modal form for creating new vehicles
+             ============================================ -->
+        <div class="popup-overlay" id="add-vehicle-popup">
+            <label for="add-vehicle-toggle" class="popup-background"></label>
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h2>Add New Vehicle</h2>
+                    <label for="add-vehicle-toggle" class="close-btn">&times;</label>
+                </div>
+
+                <div class="popup-body">
+                    <form id="add-vehicle-form">
+                        <div class="inputs">
+                            <label for="vehicle-name">Vehicle Name</label>
+                            <input id="vehicle-name" name="vehicleName" type="text" placeholder="Enter vehicle name" required>
+                        </div>
+
+                        <div class="inputs">
+                            <label for="vehicle-height">Height (meters)</label>
+                            <input id="vehicle-height" name="vehicleHeight" type="number" step="0.1" min="0" placeholder="e.g., 4.1" required>
+                        </div>
+
+                        <div class="inputs">
+                            <label for="vehicle-weight">Weight (tons)</label>
+                            <input id="vehicle-weight" name="vehicleWeight" type="number" step="0.1" min="0" placeholder="e.g., 40" required>
+                        </div>
+
+                        <div class="inputs">
+                            <label for="vehicle-width">Width (meters)</label>
+                            <input id="vehicle-width" name="vehicleWidth" type="number" step="0.1" min="0" placeholder="e.g., 2.6" required>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="popup-footer">
+                    <button type="button" class="cancel-btn" onclick="document.getElementById('add-vehicle-toggle').checked = false;">Cancel</button>
+                    <button type="submit" form="add-vehicle-form" class="save-vehicle-btn">Save Vehicle</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             EDIT VEHICLE POPUP
+             Modal form for editing existing vehicles
+             ============================================ -->
+        <div class="popup-overlay" id="edit-vehicle-popup">
+            <!-- Background overlay - clicking closes popup -->
+            <label for="edit-vehicle-toggle" class="popup-background"></label>
+            <div class="popup-content">
+                <!-- Popup header with title and close button -->
+                <div class="popup-header">
+                    <h2>Edit Vehicle</h2>
+                    <label for="edit-vehicle-toggle" class="close-btn">&times;</label>
+                </div>
+
+                <!-- Form for editing vehicle specifications -->
+                <div class="popup-body">
+                    <form id="edit-vehicle-form">
+                        <div class="inputs">
+                            <label for="edit-vehicle-name">Vehicle Name</label>
+                            <input id="edit-vehicle-name" name="editVehicleName" type="text" placeholder="Enter vehicle name" required>
+                        </div>
+
+                        <div class="inputs">
+                            <label for="edit-vehicle-height">Height (meters)</label>
+                            <input id="edit-vehicle-height" name="editVehicleHeight" type="number" step="0.1" min="0" placeholder="e.g., 4.1" required>
+                        </div>
+
+                        <div class="inputs">
+                            <label for="edit-vehicle-weight">Weight (tons)</label>
+                            <input id="edit-vehicle-weight" name="editVehicleWeight" type="number" step="0.1" min="0" placeholder="e.g., 40" required>
+                        </div>
+
+                        <div class="inputs">
+                            <label for="edit-vehicle-width">Width (meters)</label>
+                            <input id="edit-vehicle-width" name="editVehicleWidth" type="number" step="0.1" min="0" placeholder="e.g., 2.6" required>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Form action buttons -->
+                <div class="popup-footer">
+                    <button type="button" class="cancel-btn" onclick="document.getElementById('edit-vehicle-toggle').checked = false;">Cancel</button>
+                    <button type="submit" form="edit-vehicle-form" class="save-vehicle-btn">Update Vehicle</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             DELETE CONFIRMATION POPUP
+             Generic confirmation modal for delete operations
+             Used for both vehicles and routes
+             ============================================ -->
+        <div class="popup-overlay" id="delete-vehicle-popup">
+            <!-- Background overlay - clicking closes popup -->
+            <label for="delete-vehicle-toggle" class="popup-background"></label>
+            <div class="popup-content delete-confirmation">
+                <!-- Dynamic popup header (changes based on delete type) -->
+                <div class="popup-header">
+                    <h2 id="delete-popup-title">Delete Vehicle</h2>
+                    <label for="delete-vehicle-toggle" class="close-btn">&times;</label>
+                </div>
+
+                <!-- Confirmation message and item details -->
+                <div class="popup-body">
+                    <div class="delete-message">
+                        <!-- Dynamic confirmation message -->
+                        <p id="delete-confirmation-message">Are you sure you want to delete this vehicle?</p>
+                        
+                        <!-- Item information display -->
+                        <div class="vehicle-info">
+                            <h3 id="delete-vehicle-name">Vehicle Name</h3>
+                            <p id="delete-vehicle-details">Height: 0m | Weight: 0t | Width: 0m</p>
+                        </div>
+                        
+                        <!-- Warning message -->
+                        <p class="warning-text">This action cannot be undone.</p>
+                    </div>
+                </div>
+
+                <!-- Confirmation action buttons -->
+                <div class="popup-footer">
+                    <button type="button" class="cancel-btn" onclick="document.getElementById('delete-vehicle-toggle').checked = false;">Cancel</button>
+                    <button type="button" id="confirm-delete-btn" class="delete-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================
+             ACCOUNT POPUP SYSTEM
+             Dual-mode popup for login/register and user account
+             Switches between modes based on login state
+             ============================================ -->
         <div class="popup-overlay" id="account-popup">
             <label for="account-toggle" class="popup-background"></label>
             
@@ -305,19 +494,37 @@
 
     </div>
 
+    <!-- ============================================
+         JAVASCRIPT LIBRARIES AND APPLICATION SCRIPTS
+         ============================================ -->
+    
+    <!-- Leaflet JavaScript library for interactive maps -->
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
-    <!-- <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script> -->
+    
+    <!-- Leaflet Routing Machine for route calculation and display -->
     <script src="GraphHopper/leaflet-routing-machine-3.2.12/dist/leaflet-routing-machine.js"></script>
+    
+    <!-- GraphHopper integration for LRM -->
     <script src="GraphHopper\leaflet-routing-machine-3.2.12\lrm-graphhopper-1.2.0.js"></script>
     
+    <!-- Geocoding control for address search functionality -->
     <script src="GraphHopper/leaflet-routing-machine-3.2.12/examples/Control.Geocoder.js"></script>
-    <!-- <script src="script.js"></script>  -->
+    
+    <!-- GraphHopper configuration settings -->
     <script src="GraphHopper/leaflet-routing-machine-3.2.12/examples/config.js"></script>
+    
+    <!-- Polyline encoding/decoding utilities -->
     <script src="https://unpkg.com/@mapbox/polyline@1.1.1/src/polyline.js"></script>
+    
+    <!-- Main application logic and routing functionality -->
     <script src="GraphHopper/leaflet-routing-machine-3.2.12/examples/DemoRouting.js"></script>
+    
+    <!-- Additional polyline utilities -->
     <script src="GraphHopper\leaflet-routing-machine-3.2.12\Polyline.encoded.js"></script>
 
-
+    <!-- Commented out scripts - kept for reference -->
+    <!-- <script src="script.js"></script>  -->
+    <!-- <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script> -->
     <!-- <script src="Control.Geocoder.js"></script>
     <script src="config.js"></script>
     <script src="index.js"></script> -->
