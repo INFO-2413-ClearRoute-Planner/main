@@ -21,6 +21,12 @@
   <h2>Get My User Info</h2>
 <button onclick="getMyUserInfo()">Fetch My Info</button>
 
+<h2>Create New Route</h2>
+<input id="routeName" placeholder="Route Name">
+<input id="routeStartLocationId" placeholder="Start Location ID" type="number">
+<input id="routeEndLocationId" placeholder="End Location ID" type="number">
+<button onclick="addRoute()">Add Route</button>
+
 
   <h2>Add Vehicle</h2>
   <input id="vehMake" placeholder="Make">
@@ -106,6 +112,35 @@
       document.getElementById('tokenDisplay').textContent = token;
       showOutput(data);
     }
+    async function addRoute() {
+  const name = document.getElementById('routeName').value;
+  const start = parseInt(document.getElementById('routeStartLocationId').value, 10);
+  const end = parseInt(document.getElementById('routeEndLocationId').value, 10);
+
+  if (!name || isNaN(start) || isNaN(end)) {
+    showOutput({ error: 'Name, Start Location ID, and End Location ID are required.' });
+    return;
+  }
+
+  const res = await fetch(`${apiBase}/routes`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      name,
+      stops: [
+        { stopNum: 1, locationId: start },
+        { stopNum: 2, locationId: end }
+      ]
+    })
+  });
+
+  const data = await res.json();
+  showOutput(data);
+}
+
 
 async function addVehicle() {
   const res = await fetch(`${apiBase}/vehicles`, {
