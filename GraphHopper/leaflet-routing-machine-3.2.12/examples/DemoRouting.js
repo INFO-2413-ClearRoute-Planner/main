@@ -517,20 +517,33 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
+// ========== REROUTE WHEN USER SUBMITS NEW VALUES =========
+// this code waits for a submission of the form, then creates
+// a new instance of customGraphHopper with the new height 
+// limit and re-routes the map
+// =========================================================
 document.getElementById("form").addEventListener("submit", function (e) {
     e.preventDefault(); // stop the page from reloading
 
+    // Get the current waypoints
+    const currentWaypoints = control.getWaypoints();
+
+    //Get new values from the form inputs
     const heightInput = document.querySelector("input[name='heightIn']").value;
     const height = parseFloat(heightInput);
+    //weight and width not yet implemented------------------
     // const weightInput = document.querySelector("input[name='weightIn']").value;
     // const weight = parseFloat(weightInput);
     // const widthInput = document.querySelector("input[name='widthIn']").value;
     // const width = parseFloat(heightInput);
 
+    //verify form inputs
     if (isNaN(height)) {
         alert("Please enter a valid height in meters.");
         return;
     }
+    //weight and width not yet implemented-----------------
     // else if (isNaN(weight)) {
     //     alert("Please enter a valid weight in tons.");
     //     return;
@@ -539,9 +552,9 @@ document.getElementById("form").addEventListener("submit", function (e) {
     //     return;
     // }
 
+
     // Remove old control from map
     map.removeControl(control);
-
     if (errorControl) {
         map.removeControl(errorControl);
     }
@@ -556,8 +569,7 @@ document.getElementById("form").addEventListener("submit", function (e) {
     // Recreate routing control with the updated router
     control = L.Routing.control({
         waypoints: [
-            L.latLng(49.33, -123.03),
-            L.latLng(49.25, -122.97)
+            ...currentWaypoints // Use the existing waypoints
         ],
         router: newCustomRouter,
         geocoder: L.Control.Geocoder.nominatim(),
