@@ -184,43 +184,10 @@
                     <label for="vehicles-toggle" class="close-btn">&times;</label>
                 </div>
 
-                <!-- List of saved vehicles with specifications and actions -->
-                <div class="popup-body">
-                    <div class="vehicle-item" data-vehicle-id="0">
-                        <h3>Semi Truck</h3>
-                        <p>Height: 5.2m | Weight: 40t | Width: 2.6m</p>
-                        <div class="vehicle-actions">
-                            <button class="select-vehicle-btn">Select</button>
-                            <button class="edit-vehicle-btn">Edit</button>
-                            <button class="delete-vehicle-btn">Delete</button>
-                        </div>
-                    </div>
+                <div class="popup-body" id="vehicle-list"></div>
 
-                    <div class="vehicle-item" data-vehicle-id="1">
-                        <h3>Delivery Van</h3>
-                        <p>Height: 2.5m | Weight: 3.5t | Width: 2.0m</p>
-                        <div class="vehicle-actions">
-                            <button class="select-vehicle-btn">Select</button>
-                            <button class="edit-vehicle-btn">Edit</button>
-                            <button class="delete-vehicle-btn">Delete</button>
-                        </div>
-                    </div>
-
-                    <div class="vehicle-item" data-vehicle-id="2">
-                        <h3>Personal Car</h3>
-                        <p>Height: 1.6m | Weight: 1.5t | Width: 1.8m</p>
-                        <div class="vehicle-actions">
-                            <button class="select-vehicle-btn">Select</button>
-                            <button class="edit-vehicle-btn">Edit</button>
-                            <button class="delete-vehicle-btn">Delete</button>
-                        </div>
-                    </div>
-                    
-                </div>
-                
-                <!-- Footer with add new vehicle action -->
                 <div class="popup-footer">
-                    <label for="add-vehicle-toggle" class="add-new-btn">Add New Vehicle</label>
+                    <button class="add-new-btn" onclick="AddVehicle()">Add New Vehicle</button>
                 </div>
             </div>
         </div>
@@ -369,6 +336,7 @@
                     <h2 class="auth-title">Welcome to ClearRoute</h2>
                     <label for="account-toggle" class="close-btn">&times;</label>
                 </div>
+                
                 <div class="auth-container">
                     <!-- Login Form -->
                     <div class="auth-form login-form">
@@ -386,7 +354,7 @@
                             </div>
 
                         </div>
-                        <label for="user-logged-in" class="btn auth-btn">Login</label>
+                        <label class="btn auth-btn" onclick="LoginAccount()">Login</label>
                         <p class="auth-switch">Don't have an account? <label for="login-register-toggle" class="switch-link">Register here</label></p>
                     </div>
                     
@@ -397,30 +365,30 @@
 
                             <div class="inputs">
                                 <label for="registerName">Full Name</label>
-                                <input id="registerName" type="text" onkeyup="validateInput()" placeholder="Enter your full name">
+                                <input id="registerName" type="text" placeholder="Enter your full name">
                                 <span id="nameError" style="color:red;"></span>
                             </div>
                         
                             <div class="inputs">
                                 <label for="registerEmail">Email</label>
-                                <input id="registerEmail" type="email" onkeyup="validateInput()" placeholder="Enter your email">
+                                <input id="registerEmail" type="email" placeholder="Enter your email">
                                 <span id="emailError" style="color:red;"></span>
                             </div>
 
                             <div class="inputs">
                                 <label for="registerPassword">Password</label>
-                                <input id="registerPassword" type="password" onkeyup="validateInput()" placeholder="Create a password">
+                                <input id="registerPassword" type="password" placeholder="Create a password">
                                 <span id="passwordError" style="color:red;"></span>
                             </div>
 
                             <div class="inputs">
                                 <label for="registerConfirm">Confirm Password</label>
-                                <input id="registerConfirm" type="password" onkeyup="validateInput()" placeholder="Confirm your password">
+                                <input id="registerConfirm" type="password" placeholder="Confirm your password">
                                 <span id="confirmPassError" style="color:red;"></span>
                             </div>
 
                         </div>
-                        <label for="user-logged-in" class="btn auth-btn" onclick="">Create Account</label>
+                        <label class="btn auth-btn" onclick="CreateAccount()">Create Account</label>
                         <p class="auth-switch">Already have an account? <label for="login-register-toggle" class="switch-link">Login here</label></p>
                     </div>
                 </div>
@@ -488,7 +456,7 @@
 
                 </div>
                 <div class="popup-footer">
-                    <label for="user-logged-in" class="logout-btn">Logout</label>
+                    <label class="logout-btn" onclick="LogOut()">Logout</label>
                 </div>
             </div>
 
@@ -506,6 +474,7 @@
     
     <!-- GraphHopper integration for LRM -->
     <script src="GraphHopper\leaflet-routing-machine-3.2.12\lrm-graphhopper-1.2.0.js"></script>
+    <script src="GraphHopper\leaflet-routing-machine-3.2.12\Polyline.encoded.js"></script>
     
     <!-- Geocoding control for address search functionality -->
     <script src="GraphHopper/leaflet-routing-machine-3.2.12/examples/Control.Geocoder.js"></script>
