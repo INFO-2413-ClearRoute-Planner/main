@@ -120,7 +120,21 @@ L.Routing.CustomGraphHopper = L.Class.extend({
 	-get most recent route ID from the database
 	-create entry in tables (route, location, routeStops)
 */
-function saveCurrentRoute(AutoRoute) {
+
+
+// This function saves the current route to the database
+//Click "Route with limits" and this function will autorun
+//If user is not signed in the function exits early and no data is saved
+async function saveCurrentRoute(AutoRoute) {
+
+	const token = localStorage.getItem("token");
+
+	//If no token, user is not signed in — skip DB save
+	if (!token) {
+		console.log("Not signed in — skipping save to database.");
+		return;
+	}
+
 
 	//define variables for route table entry
 	//get user ID from session or context (placeholder for now)--
@@ -133,6 +147,77 @@ function saveCurrentRoute(AutoRoute) {
 		// If AutoRoute is false, get the name from the input field(placeholder for now)--
 		routeName = "Placeholder Route Name"; // Replace with actual input field value
 	}
+	
+
+//route creation
+// Get the current waypoints
+let currentWaypoints = control.getWaypoints();
+let stops = []; // define the array to push stop info
+
+//Loop through each waypoint to save its coordinates as a new `location` in the DB
+	for (let i = 0; i < currentWaypoints.length; i++) {
+		const { lat, lng } = currentWaypoints[i].latLng;
+
+		try {
+			//Send a post request to store coordinates in DB
+			const locationRes = await fetch("http://localhost:3000/locations", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`
+				},
+				body: JSON.stringify({ latitude: lat, longitude: lng })
+			});
+			//Exit if something goes wrong
+			if (!locationRes.ok) {
+				// If token is expired/invalid, silently stop saving
+				console.warn(`Location ${i} failed: ${locationRes.status}`);
+				return;
+			}
+
+			//Parse response to get the new location ID
+			const locationData = await locationRes.json();
+			//Add to list of route stops
+			stops.push({
+				stopNum: i + 1,
+				locationId: locationData.locationId
+			});
+		} catch (err) {
+			//failure logging
+			console.error(`Error creating location ${i}:`, err);
+			return; // Silent fail
+		}
+	}
+
+	// Save route with associated stops
+	try {
+		const routeRes = await fetch("http://localhost:3000/routes", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}` //including token
+			},
+			body: JSON.stringify({ name: routeName, stops })
+		});
+
+		if (!routeRes.ok) {
+			console.warn(`Route save failed: ${routeRes.status}`);
+			return;
+		}
+
+		const routeData = await routeRes.json();
+		console.log("Route saved with ID:", routeData.routeId);
+	} catch (err) {
+		console.error("Route creation error:", err);
+	}
+
+
+
+
+ }	
+	//Old code for saving route, kept for reference
+	//Code was user primarily for logging purposes
+	/*
 	// create entry in the route table (not yet implemented, just logging for now)--
 	console.log("Create Route:");
 	console.log("\"userID\": \"" + UserID + "\"");
@@ -159,7 +244,11 @@ function saveCurrentRoute(AutoRoute) {
 			console.log("\n");
 
 		}
-}
+		*/
+
+
+		
+
 /* ============================================
    MAP INITIALIZATION AND SETUP
    Initialize Leaflet map with routing controls
@@ -574,7 +663,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // a new instance of customGraphHopper with the new height 
 // limit and re-routes the map
 // =========================================================
-document.getElementById("form").addEventListener("submit", function (e) {
+document.getElementById("form").addEventListener("submit", async function (e) {
 	e.preventDefault(); // stop the page from reloading
 
 	// Get the current waypoints
@@ -640,6 +729,6 @@ document.getElementById("form").addEventListener("submit", function (e) {
 	//reattach the error control
 	errorControl = L.Routing.errorControl(control).addTo(map);
 
-	saveCurrentRoute(1);
+	await saveCurrentRoute(1);
 });
 
