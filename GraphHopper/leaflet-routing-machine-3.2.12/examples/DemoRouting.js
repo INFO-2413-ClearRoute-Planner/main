@@ -19,19 +19,20 @@
 
 // Define a custom GraphHopper router for Leaflet Routing Machine
 L.Routing.CustomGraphHopper = L.Class.extend({
-	initialize: function() {
+	initialize: function(apiKey, options) {
+        this.options = options || {};
 		this.serviceUrl = this.options.serviceUrl || 'http://localhost:8989/route';
 		this.profile = this.options.profile || 'truck1'; // Default vehicle profile
 	},
 
 	// This method is required by LRM — it builds and sends the routing request
 	route: function(waypoints, callback, context, options) {
-		// Convert waypoints from L.LatLng objects to [lon, lat] pairs (GraphHopper format)
+		// Convert waypoints from Lat-Lng objects to Lng-Lat (cause GraphHopper expects Lng-Lat)
 		const points = waypoints.map(wp => [wp.latLng.lng, wp.latLng.lat]);
 
-		// Extract the height limit from options, default to 1 meters if not provided
+		// Get height, weight, width, default to 1
 		const heightLimit = this.options.heightLimit || 1; //1m
-		const weightLimit = this.options.weightLimit || 0; //1t
+		const weightLimit = this.options.weightLimit || 1; //1t
 		const widthLimit = this.options.widthLimit || 1; //1m
 
 
@@ -41,9 +42,8 @@ L.Routing.CustomGraphHopper = L.Class.extend({
 			points: points,
 			custom_model: {
 				distance_influence: 1,
-				priority: [
-					{
-						// Avoid routes with height restrictions lower than vehicle height
+				priority: [ 
+					{ //Avoid routes with height, weight, width limits
 						if: `max_height < ${heightLimit}`,
 						multiply_by: "0"
 					},
@@ -73,9 +73,8 @@ L.Routing.CustomGraphHopper = L.Class.extend({
 
 			// Format the response into the format LRM expects
 			const route = {
-				name: "", // Optional route name
+				name: "", 
 				coordinates: coords, // The route geometry
-				// Route summary information
 				summary: {
 					totalDistance: data.paths[0].distance, // Distance in meters
 					totalTime: data.paths[0].time / 1000 // Time in seconds (converted from milliseconds)
@@ -674,10 +673,10 @@ document.getElementById("form").addEventListener("submit", async function (e) {
 	let heightInput = document.querySelector("input[name='heightIn']").value;
 	let height = parseFloat(heightInput);
 	//weight and width not yet implemented------------------
-	// let weightInput = document.querySelector("input[name='weightIn']").value;
-	// let weight = parseFloat(weightInput);
-	// let widthInput = document.querySelector("input[name='widthIn']").value;
-	// let width = parseFloat(heightInput);
+	let weightInput = document.querySelector("input[name='weightIn']").value;
+	let weight = parseFloat(weightInput);
+	let widthInput = document.querySelector("input[name='widthIn']").value;
+	let width = parseFloat(heightInput);
 
 	//verify form inputs
 	if (isNaN(height)) {
@@ -704,7 +703,9 @@ document.getElementById("form").addEventListener("submit", async function (e) {
 	const newCustomRouter = new L.Routing.CustomGraphHopper('', {
 		serviceUrl: 'http://localhost:8989/route',
 		profile: 'truck1',
-		heightLimit: height
+		heightLimit: height,
+		weightLimit: weight,
+		widthLimit: width 
 	});
 
 	// Recreate routing control with the updated router
@@ -731,4 +732,5 @@ document.getElementById("form").addEventListener("submit", async function (e) {
 
 	await saveCurrentRoute(1);
 });
+
 
