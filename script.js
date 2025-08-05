@@ -37,7 +37,10 @@ fetch('http://localhost:8989/route?ch=false', {
   console.error("Routing failed:", err);
 })
 
-// Database Var
+// ------------------------------------------->
+// DATABASE ---------------------------------->
+// ------------------------------------------->
+
 let apiBase = 'http://localhost:3000'; // Change if deployed
 let sessionToken = '';
 
@@ -46,15 +49,30 @@ let savedVehicles = [];
 
 document.addEventListener('DOMContentLoaded', function() {
   InitAuthVerification();
-
   LoginUpdate();
 });
+
+// Editing form submit buttons to prevent page reload 
+document.getElementById('add-vehicle-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  AddVehicle();
+});
+
+document.getElementById('edit-vehicle-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  EditVehicle();
+});
+
+// ------------------------------------------->
+// ACCOUNT ----------------------------------->
+// ------------------------------------------->
 
 // LogOut
 // NOTE: they are added on HTML onclick directly
 async function LogOut()
 {
   document.getElementById('user-logged-in').checked = false;
+  document.getElementById('vehicle-list').innerHTML = ``;
   sessionToken = '';
 }
 
@@ -103,11 +121,10 @@ async function LoginUpdate()
   //Checks if Login successfull
   if(typeof sessionToken !== 'undefined' && sessionToken !== '')
   {
+    await AccountUpdate();
     document.getElementById('user-logged-in').checked = true;
 
-    await GetUserVehicles();
-    InitManageProfiles();
-
+    await UpdateVehicles();
   }
   else
   {
@@ -115,7 +132,25 @@ async function LoginUpdate()
   }
 }
 
-async function GetUserVehicles()
+// Update User Informations
+async function AccountUpdate()
+{
+  const res = await fetch('http://localhost:3000/auth/me', {
+    headers: { Authorization: `Bearer ${sessionToken}` }
+  });
+
+  const data = await res.json();
+
+  document.getElementById('user-info-name').innerHTML = data.Name;
+  document.getElementById('user-info-email').innerHTML = data.Email;
+}
+
+// ---------------------------------------->
+// VEHICLE -------------------------------->
+// ---------------------------------------->
+
+// Gets Vehicles from the DB. Show vehicles and updates internal array
+async function UpdateVehicles()
 {
   try {
     const res = await fetch(`${apiBase}/vehicles`, {
@@ -129,13 +164,20 @@ async function GetUserVehicles()
 
     const data = await res.json();
     savedVehicles = data;
+  
+    // Update Vehicle Profiles 
+    let i = 0;
+    document.getElementById('vehicle-list').innerHTML = ``;
+    savedVehicles.forEach(vehicle => {
+      AddVehicleHTML(vehicle, i);
+      i++;
+    });
+
   } catch (err) {
     showOutput({ error: err.message });
   }
 }
 
-// NOTE: they are added on HTML onclick directly
-// WARNING: Update new input fields
 async function AddVehicle()
 {
   const res = await fetch(`${apiBase}/vehicles`, {
@@ -145,30 +187,130 @@ async function AddVehicle()
       'Authorization': `Bearer ${sessionToken}`
     },
     body: JSON.stringify({
-      name: 'Moskvitch',
-      height: parseFloat(document.getElementById('height').value) || null,
-      weightT: parseFloat(document.getElementById('weight').value) || null
+      name: document.getElementById('vehicle-name').value,
+      height: parseFloat(document.getElementById('vehicle-height').value) || null,
+      weightT: parseFloat(document.getElementById('vehicle-weight').value) || null,
+      width: parseFloat(document.getElementById('vehicle-width').value) || null
     })
   });
 
   const data = await res.json();
+  UpdateVehicles(); 
 }
 
 // Add Vehicle Item in the list
-function AddVehicleHTML(vehicle)
+function AddVehicleHTML(vehicle, index)
 {
   document.getElementById('vehicle-list').innerHTML += `
     <div class="vehicle-item">
       <h3>${vehicle.Name}</h3>
-      <p>Height: ${vehicle.Height}m | Weight: ${vehicle.WeightT}t | Width: ${-1}m</p>
+      <p>Height: ${vehicle.Height}m | Weight: ${vehicle.WeightT}t | Width: ${vehicle.width}m</p>
       <div class="vehicle-actions">
-        <button class="select-vehicle-btn">Select</button>
-        <button class="edit-vehicle-btn">Edit</button>
-        <button class="delete-vehicle-btn">Delete</button>
+        <button class="select-vehicle-btn" onclick="SelectVehicle(${index})">Select</button>
+        <button class="edit-vehicle-btn" onclick="SetupEditWindow(${vehicle.VehicleID})">Edit</button>
+        <button class="delete-vehicle-btn" onclick="DeleteVehicle(${vehicle.VehicleID}, ${index})">Delete</button>
       </div>
     </div>
   `;
 }
+
+// ------------------------------------------------->
+// VEHICLE ITEMS ----------------------------------->
+// ------------------------------------------------->
+let editVehicleID = 0;
+
+// Setup Edit Window for selected vehicle
+function SetupEditWindow(vehicleID)
+{
+  document.getElementById('edit-vehicle-toggle').checked = true;
+  editVehicleID = vehicleID;
+}
+
+// Edit Vehicle
+async function EditVehicle()
+{
+  const name = document.getElementById('edit-vehicle-name').value;
+  const heightRaw = document.getElementById('edit-vehicle-height').value;
+  const weightRaw = document.getElementById('edit-vehicle-weight').value;
+  const widthRaw = document.getElementById('edit-vehicle-width').value;
+
+  // Parse as float or set to null explicitly
+  const height = heightRaw === '' ? null : parseFloat(heightRaw);
+  const weightT = weightRaw === '' ? null : parseFloat(weightRaw);
+  const width = widthRaw === '' ? null : parseFloat(widthRaw);
+
+  if (isNaN(editVehicleID) || !name) {
+    showOutput({ error: 'Please enter a valid vehicle ID and name' });
+    return;
+  }
+
+  const res = await fetch(`${apiBase}/vehicles/${editVehicleID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${sessionToken}`
+    },
+    body: JSON.stringify({ name, height, weightT, width })
+  });
+
+  if (res.status === 204) {
+    showOutput({ message: `Vehicle ${editVehicleID} updated successfully.` });
+    UpdateVehicles();
+  } else {
+    const err = await res.text();
+    showOutput({ error: `Failed to update vehicle: ${res.status} - ${err}` });
+  }
+}
+
+// Remove Vehicle from DB and HTML
+async function DeleteVehicle(vehicleIDStr, index)
+{
+  if (!confirm(`Are you sure you want to delete "${savedVehicles[index].Name}"?`)) {return;}
+
+  const vehicleId = parseInt(vehicleIDStr, 10);
+  if (isNaN(vehicleId)) {
+    showOutput({ error: 'Please enter a valid vehicle ID' });
+    return;
+  }
+
+  const res = await fetch(`${apiBase}/vehicles/${vehicleId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${sessionToken}`
+    }
+  });
+
+  if (res.status === 204) {
+    showOutput({ message: `Vehicle ${vehicleId} deleted successfully.` });
+    UpdateVehicles();
+  } else {
+    const err = await res.text();
+    showOutput({ error: `Failed to delete vehicle: ${res.status} - ${err}` });
+  }
+}
+
+function SelectVehicle(index) 
+{
+  // Get the values for this vehicle
+  const vehicleHeight = savedVehicles[index].Height;
+  const vehicleWidth = savedVehicles[index].width;
+  const vehicleWeight = savedVehicles[index].WeightT;
+  
+  // Populate the input field
+  document.querySelector("input[name='heightIn']").value = vehicleHeight;
+  document.querySelector("input[name='widthIn']").value = vehicleWidth;
+  document.querySelector("input[name='weightIn']").value = vehicleWeight;
+  
+  // Close the popup
+  document.getElementById('vehicles-toggle').checked = false;
+  
+  // Show confirmation message
+  // alert(`Vehicle "${savedVehicles[index].name}" selected with height limit: ${vehicleHeight}m`);
+}
+
+// ---------------------------------------->
+// INIT ----------------------------------->
+// ---------------------------------------->
 
 // Add functionality for Authentication (Login & Register)
 function InitAuthVerification()
@@ -223,12 +365,6 @@ function InitAuthVerification()
 // Add functionality for Manage Route & Vehicles Windows 
 function InitManageProfiles()
 {
-  // Add Vehicle Profiles 
-  savedVehicles.forEach(vehicle => {
-    showOutput(vehicle);
-    AddVehicleHTML(vehicle);
-  });
-
   // Route buttons
   const useRouteButtons = document.querySelectorAll('.use-route-btn');
   const deleteRouteButtons = document.querySelectorAll('.delete-route-btn');
@@ -268,69 +404,6 @@ function InitManageProfiles()
               
               // Optional: Show confirmation message
               alert('Route deleted successfully!');
-          }
-      });
-  });
-  
-  // Vehicle functionality
-  selectVehicleButtons.forEach((button, index) => {
-      button.addEventListener('click', function() {
-          // Get the values for this vehicle
-          const vehicleHeight = savedVehicles[index].Height;
-          const vehicleWidth = savedVehicles[index].width;
-          const vehicleWeight = savedVehicles[index].WeightT;
-          
-          // Populate the input field
-          document.querySelector("input[name='heightIn']").value = vehicleHeight;
-          document.querySelector("input[name='widthIn']").value = vehicleWidth;
-          document.querySelector("input[name='weightIn']").value = vehicleWeight;
-          
-          // Update the vehicle dropdown to show selected vehicle
-          // const vehicleSelect = document.querySelector('select');
-          // if (vehicleSelect && vehicleSelect.options[index]) {
-          //     vehicleSelect.selectedIndex = index;
-          // }
-          
-          // Close the popup
-          document.getElementById('vehicles-toggle').checked = false;
-          
-          // Show confirmation message
-          // alert(`Vehicle "${savedVehicles[index].name}" selected with height limit: ${vehicleHeight}m`);
-      });
-  });
-  
-  editVehicleButtons.forEach((button, index) => {
-      button.addEventListener('click', function() {
-          const vehicle = savedVehicles[index];
-          
-          // Simple edit functionality - prompt for new height
-          const newHeight = prompt(`Edit height for ${vehicle.name}:`, vehicle.height);
-          
-          if (newHeight !== null && !isNaN(parseFloat(newHeight))) {
-              // Update the vehicle data
-              savedVehicles[index].height = parseFloat(newHeight);
-              
-              // Update the display in the DOM
-              const vehicleItem = button.closest('.vehicle-item');
-              const vehicleParagraph = vehicleItem.querySelector('p');
-              vehicleParagraph.textContent = `Height: ${newHeight}m | Weight: ${vehicle.weight}t | Width: ${vehicle.width}m`;
-              
-              alert(`Vehicle "${vehicle.name}" updated with new height: ${newHeight}m`);
-          } else if (newHeight !== null) {
-              alert('Please enter a valid height value.');
-          }
-      });
-  });
-  
-  deleteVehicleButtons.forEach((button, index) => {
-      button.addEventListener('click', function() {
-          if (confirm(`Are you sure you want to delete "${savedVehicles[index].Name}"?`)) {
-              // Remove the vehicle from the DOM
-              const vehicleItem = button.closest('.vehicle-item');
-              vehicleItem.remove();
-              
-              // Remove from saved vehicles array
-              savedVehicles.splice(index, 1);
           }
       });
   });

@@ -187,7 +187,7 @@
                 <div class="popup-body" id="vehicle-list"></div>
 
                 <div class="popup-footer">
-                    <button class="add-new-btn" onclick="AddVehicle()">Add New Vehicle</button>
+                    <button class="add-new-btn" onclick="document.getElementById('add-vehicle-toggle').checked = true;">Add New Vehicle</button>
                 </div>
             </div>
         </div>
@@ -408,9 +408,9 @@
                         </div>
 
                         <div class="user-details">
-                            <h3>John Doe</h3>
-                            <p>john.doe@email.com</p>
-                            <p>Member since: January 2025</p>
+                            <h3 id="user-info-name">John Doe</h3>
+                            <p id="user-info-email">john.doe@email.com</p>
+                            <p >Member since: August 2025</p>
                         </div>
                     </div>
                     
@@ -486,13 +486,13 @@
     <script src="https://unpkg.com/@mapbox/polyline@1.1.1/src/polyline.js"></script>
     
     <!-- Main application logic and routing functionality -->
-    <script src="GraphHopper/leaflet-routing-machine-3.2.12/examples/DemoRouting.js"></script>
+    <!-- <script src="GraphHopper/leaflet-routing-machine-3.2.12/examples/DemoRouting.js"></script> -->
     
     <!-- Additional polyline utilities -->
     <script src="GraphHopper\leaflet-routing-machine-3.2.12\Polyline.encoded.js"></script>
 
     <!-- Commented out scripts - kept for reference -->
-    <!-- <script src="script.js"></script>  -->
+    <script src="script.js"></script> 
     <!-- <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script> -->
     <!-- <script src="Control.Geocoder.js"></script>
     <script src="config.js"></script>
