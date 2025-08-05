@@ -61,7 +61,8 @@
              Hidden checkboxes that control popup visibility
              Uses CSS :checked selector for state management
              ============================================ -->
-        <input type="checkbox" id="saved-route-toggle" class="popup-toggle">
+        <input type="checkbox" id="save-route-toggle" class="popup-toggle">
+        <input type="checkbox" id="history-route-toggle" class="popup-toggle">
         <input type="checkbox" id="vehicles-toggle" class="popup-toggle">
         <input type="checkbox" id="account-toggle" class="popup-toggle">
         <input type="checkbox" id="login-register-toggle" class="popup-toggle">
@@ -110,57 +111,66 @@
 
                 <!-- Action buttons for routing and popup management -->
                 <div class="popup-buttons">
-                    <input type="submit" id="submit" value="Route With Limits">
-                    <label for="saved-route-toggle" class="popup-btn">View Saved Routes</label>
+                    <input type="submit" id="submit" value="Reroute">
+                    <label for="save-route-toggle" class="popup-btn">Save Route</label>
+                    <label for="history-route-toggle" class="popup-btn">View Route History</label>
                     <label for="vehicles-toggle" class="popup-btn">Manage Vehicles</label>
                 </div>
             </form>
+        </div>
+
+        <!-- ============================================
+             SAVE ROUTE POPUP
+             Modal form for saving route with name
+             ============================================ -->
+        <div class="popup-overlay" id="save-route-popup">
+            <label for="save-route-toggle" class="popup-background"></label>
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h2>Save Route</h2>
+                    <label for="save-route-toggle" class="close-btn">&times;</label>
+                </div>
+
+                <div class="popup-body">
+                    <form id="save-route-form">
+                        <div class="inputs">
+                            <label for="route-name">Route Name</label>
+                            <input id="route-name" name="routeName" type="text" placeholder="Enter route name" required>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="popup-footer">
+                    <button type="button" class="cancel-btn" onclick="document.getElementById('save-route-toggle').checked = false;">Cancel</button>
+                    <button type="submit" form="save-route-form" class="save-vehicle-btn">Save Route</button>
+                </div>
+            </div>
         </div>
         
         <!-- ============================================
              SAVED ROUTES POPUP
              Modal for viewing, using, and managing saved routes
              ============================================ -->
-        <div class="popup-overlay" id="saved-route-popup">
+        <div class="popup-overlay" id="history-route-popup">
             <!-- Background overlay - clicking closes popup -->
-            <label for="saved-route-toggle" class="popup-background"></label>
+            <label for="history-route-toggle" class="popup-background"></label>
 
             <div class="popup-content">
                 <!-- Popup header with title and close button -->
                 <div class="popup-header">
                     <h2>Saved Routes</h2>
-                    <label for="saved-route-toggle" class="close-btn">&times;</label>
+                    <label for="history-route-toggle" class="close-btn">&times;</label>
                 </div>
 
-                <!-- List of saved routes with details and actions -->
-                <div class="popup-body">
-                    <div class="route-item" data-route-id="0">
+                <div class="popup-body" id="history-route-list">
+                    <!-- <div class="route-item" data-route-id="0">
                         <h3>Home to Work</h3>
                         <p>Distance: 15.2 km | Time: 22 min</p>
                         <div class="route-actions">
                             <button class="use-route-btn">Use Route</button>
                             <button class="delete-route-btn">Delete</button>
                         </div>
-                    </div>
-
-                    <div class="route-item" data-route-id="1">
-                        <h3>Downtown Shopping</h3>
-                        <p>Distance: 8.7 km | Time: 18 min</p>
-                        <div class="route-actions">
-                            <button class="use-route-btn">Use Route</button>
-                            <button class="delete-route-btn">Delete</button>
-                        </div>
-                    </div>
-
-                    <div class="route-item" data-route-id="2">
-                        <h3>Airport Route</h3>
-                        <p>Distance: 32.1 km | Time: 45 min</p>
-                        <div class="route-actions">
-                            <button class="use-route-btn">Use Route</button>
-                            <button class="delete-route-btn">Delete</button>
-                        </div>
-                    </div>
-
+                    </div> -->
                 </div>
                 
                 <!-- Footer with save current route action -->
@@ -486,13 +496,14 @@
     <script src="https://unpkg.com/@mapbox/polyline@1.1.1/src/polyline.js"></script>
     
     <!-- Main application logic and routing functionality -->
-    <!-- <script src="GraphHopper/leaflet-routing-machine-3.2.12/examples/DemoRouting.js"></script> -->
+    <script src="database.js"></script> 
+    <script src="routing.js"></script> 
     
     <!-- Additional polyline utilities -->
     <script src="GraphHopper\leaflet-routing-machine-3.2.12\Polyline.encoded.js"></script>
 
     <!-- Commented out scripts - kept for reference -->
-    <script src="script.js"></script> 
+    <!-- <script src="GraphHopper/leaflet-routing-machine-3.2.12/examples/DemoRouting.js"></script> -->
     <!-- <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script> -->
     <!-- <script src="Control.Geocoder.js"></script>
     <script src="config.js"></script>

@@ -338,7 +338,8 @@ body {
 }
 
 /* Show popup when corresponding checkbox is checked */
-#saved-route-toggle:checked ~ #saved-route-popup,
+#history-route-toggle:checked ~ #history-route-popup,
+#save-route-toggle:checked ~ #save-route-popup,
 #vehicles-toggle:checked ~ #vehicles-popup,
 #add-vehicle-toggle:checked ~ #add-vehicle-popup,
 #edit-vehicle-toggle:checked ~ #edit-vehicle-popup,
@@ -367,7 +368,8 @@ body {
 }
 
 /* Animate popup content when shown - slide in from top */
-#saved-route-toggle:checked ~ #saved-route-popup .popup-content,
+#history-route-toggle:checked ~ #history-route-popup .popup-content,
+#save-route-toggle:checked ~ #save-route-popup .popup-content,
 #vehicles-toggle:checked ~ #vehicles-popup .popup-content,
 #add-vehicle-toggle:checked ~ #add-vehicle-popup .popup-content,
 #edit-vehicle-toggle:checked ~ #edit-vehicle-popup .popup-content,

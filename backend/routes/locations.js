@@ -20,7 +20,8 @@ router.post('/', auth, async (req, res) => {
   }
 
   try {
-    const id = await createLocation(name, longitude, latitude);
+    // Name was deprecated
+    const id = await createLocation(longitude, latitude);
     res.status(201).json({ locationId: id });
   } catch (err) {
     console.error('Error creating location:', err);

@@ -1,48 +1,10 @@
-// Map UI
-var map = L.map('map').setView([49.28207317260126, -123.03236951998038], 14);
-
-// Shows the Map
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
-
-// Request for the route
-fetch('http://localhost:8989/route?ch=false', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    profile: 'truck1',
-    points: [
-      // Here the coordinates have to be swapped
-      [-123.02996285956368, 49.279381755743714], 
-      [-123.05059137742096, 49.31794469596032]
-    ],
-    // Here we pas onto the server our custom model
-    custom_model: {
-      distance_influence: 1,
-      priority: [{ if: "max_height < 5", multiply_by: "0" }],
-      speed: [{ if: "true", limit_to: "80" }]
-    }
-  })
-})
-.then(response => response.json())
-.then(data => {
-  // Here we create a path from GraphHopper response
-  const encoded = data.paths[0].points; 
-  const coords = L.Polyline.fromEncoded(encoded).getLatLngs();
-  L.polyline(coords, { color: 'blue' }).addTo(map);
-})
-.catch(err => {
-  console.error("Routing failed:", err);
-})
-
-// ------------------------------------------->
-// DATABASE ---------------------------------->
-// ------------------------------------------->
+/* ============================================
+   DATABASE INITIALIZATION
+   Initialize database and HTML Content
+   ============================================ */
 
 let apiBase = 'http://localhost:3000'; // Change if deployed
-let sessionToken = '';
+let sessionToken = ''; // Global scope variable
 
 // Store saved vehicles data for functionality
 let savedVehicles = [];
@@ -63,9 +25,65 @@ document.getElementById('edit-vehicle-form').addEventListener('submit', function
   EditVehicle();
 });
 
-// ------------------------------------------->
-// ACCOUNT ----------------------------------->
-// ------------------------------------------->
+document.getElementById('save-route-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  saveCurrentRoute(false);
+});
+
+// Add functionality for Authentication (Login & Register)
+function InitAuthVerification()
+{
+  //Validate Full Name
+  document.getElementById("registerName").addEventListener("input", function() {
+    const name = this.value.trim();
+    const error = document.getElementById("nameError");
+
+    if (name === "" || !/^[A-Za-z\s]+$/.test(name)) {
+        error.textContent = "Only letters and spaces allowed.";
+    } 
+    else {
+        error.textContent = "";
+    }
+  });
+
+  //Validate Email
+  document.getElementById("registerEmail").addEventListener("input", function() {
+    const email = this.value.trim();
+    const error = document.getElementById("emailError");
+    const pattern = /\S+@\S+\.\S+/;
+
+    error.textContent = pattern.test(email) ? "" : "Invalid email format.";
+  });
+
+  //Validate Password
+  document.getElementById("registerPassword").addEventListener("input", function() {
+    const password = this.value;
+    const error = document.getElementById("passwordError");
+
+    // At least 1 upper case and 1 symbol and 8 characters long
+    const passwordPattern = /^(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
+    if (!passwordPattern.test(password)) {
+        error.textContent = "Password must be at least 8 characters long and include 1 symbol & 1 uppercase  letter. ";
+    }
+    else {
+        error.textContent = "";
+    }
+  });
+
+  //Validate Confirm Password
+  document.getElementById("registerConfirm").addEventListener("input", function() {
+    const confirm = this.value;
+    const password = document.getElementById("registerPassword").value;
+    const error = document.getElementById("confirmPassError");
+
+    error.textContent = confirm === password ? "" : "Password do not match.";
+  });
+}
+
+/* ============================================
+   ACCOUNT DATABASE
+   Manages Account & DB interactions
+   ============================================ */
 
 // LogOut
 // NOTE: they are added on HTML onclick directly
@@ -125,6 +143,7 @@ async function LoginUpdate()
     document.getElementById('user-logged-in').checked = true;
 
     await UpdateVehicles();
+    await UpdateRouteHistory();
   }
   else
   {
@@ -145,9 +164,98 @@ async function AccountUpdate()
   document.getElementById('user-info-email').innerHTML = data.Email;
 }
 
-// ---------------------------------------->
-// VEHICLE -------------------------------->
-// ---------------------------------------->
+/* ============================================
+   ROUTE DATABASE
+   Manages Routes & DB interactions
+   Saving Route into DB is in routing.js
+   ============================================ */
+
+async function UpdateRouteHistory()
+{
+  document.getElementById('history-route-list').innerHTML = ``;
+
+  try {
+    const res = await fetch(`${apiBase}/routes`, {
+      headers: { 'Authorization': `Bearer ${sessionToken}` }
+    });
+
+    if (!res.ok) {
+      const error = await res.text();
+      throw new Error(`Fetch failed: ${res.status} ${res.statusText} - ${error}`);
+    }
+
+    const data = await res.json();
+    let formattedRoutes = FormatRoute(data);
+
+    formattedRoutes.forEach(route => {
+      let directionsText = `${route.stops[0].Lon}, ${route.stops[0].Lat}`;
+      for(let i = 1;i<route.stops.length;i++)
+      {
+        directionsText += ` to ${route.stops[i].Lon}, ${route.stops[i].Lat}`
+      }
+
+      document.getElementById('history-route-list').innerHTML += `
+      <div class="route-item">
+          <h3>${route.name}</h3>
+          <p>${directionsText}</p>
+          <div class="route-actions">
+            <button class="use-route-btn">Use Route</button>
+            <button class="delete-route-btn" onclick="DeleteRoute(${route.id})">Delete</button>
+          </div>
+      </div>`;
+    })
+  } catch (err) {
+    showOutput({ error: err.message });
+  }
+}
+
+async function DeleteRoute(routeID)
+{
+  // const res = await fetch(`${apiBase}/routes/${routeID}`, {
+  //   method: 'DELETE',
+  //   headers: {
+  //     Authorization: `Bearer ${sessionToken}`
+  //   }
+  // });
+
+  // if (res.status === 204) {
+  //   showOutput({ message: `Route ${routeID} deleted successfully.` });
+  //   UpdateRouteHistory();
+  // } else {
+  //   const err = await res.text();
+  //   showOutput({ error: `Failed to delete vehicle: ${res.status} - ${err}` });
+  // }
+
+}
+
+function FormatRoute(data)
+{
+  let allStops = data;
+  let allRoutes = [];
+
+  let currentRouteName;
+  let currentRouteID = allStops[0].RouteID;
+  let currentRouteStops = [];
+
+  allStops.forEach(stop => {
+    if(stop.RouteID != currentRouteID)
+    {
+      allRoutes.push({id: currentRouteID, name: currentRouteName, stops: currentRouteStops});
+      currentRouteStops = [];
+    }
+
+    currentRouteID = stop.RouteID;
+    currentRouteName = stop.RouteName;
+    currentRouteStops.push({Lon: stop.Longitude, Lat: stop.Latitude});
+  })
+
+  return allRoutes;
+}
+
+/* ============================================
+   VEHICLE DATABASE
+   Manages Vehicle & DB interactions
+   ============================================ */
 
 // Gets Vehicles from the DB. Show vehicles and updates internal array
 async function UpdateVehicles()
@@ -214,9 +322,10 @@ function AddVehicleHTML(vehicle, index)
   `;
 }
 
-// ------------------------------------------------->
-// VEHICLE ITEMS ----------------------------------->
-// ------------------------------------------------->
+/* ============================================
+   VEHICLE ITEMS
+   Manages Vehicle Items Individual actions
+   ============================================ */
 let editVehicleID = 0;
 
 // Setup Edit Window for selected vehicle
@@ -289,6 +398,7 @@ async function DeleteVehicle(vehicleIDStr, index)
   }
 }
 
+// Input Data into route form
 function SelectVehicle(index) 
 {
   // Get the values for this vehicle
@@ -309,58 +419,8 @@ function SelectVehicle(index)
 }
 
 // ---------------------------------------->
-// INIT ----------------------------------->
+// RESERVE ----------------------------------->
 // ---------------------------------------->
-
-// Add functionality for Authentication (Login & Register)
-function InitAuthVerification()
-{
-  //Validate Full Name
-  document.getElementById("registerName").addEventListener("input", function() {
-    const name = this.value.trim();
-    const error = document.getElementById("nameError");
-
-    if (name === "" || !/^[A-Za-z\s]+$/.test(name)) {
-        error.textContent = "Only letters and spaces allowed.";
-    } 
-    else {
-        error.textContent = "";
-    }
-  });
-
-  //Validate Email
-  document.getElementById("registerEmail").addEventListener("input", function() {
-    const email = this.value.trim();
-    const error = document.getElementById("emailError");
-    const pattern = /\S+@\S+\.\S+/;
-
-    error.textContent = pattern.test(email) ? "" : "Invalid email format.";
-  });
-
-  //Validate Password
-  document.getElementById("registerPassword").addEventListener("input", function() {
-    const password = this.value;
-    const error = document.getElementById("passwordError");
-
-    // At least 1 upper case and 1 symbol and 8 characters long
-    const passwordPattern = /^(?=.*[A-Z])(?=.*[\W_]).{8,}$/;
-    if (!passwordPattern.test(password)) {
-        error.textContent = "Password must be at least 8 characters long and include 1 symbol & 1 uppercase  letter. ";
-    }
-    else {
-        error.textContent = "";
-    }
-  });
-
-  //Validate Confirm Password
-  document.getElementById("registerConfirm").addEventListener("input", function() {
-    const confirm = this.value;
-    const password = document.getElementById("registerPassword").value;
-    const error = document.getElementById("confirmPassError");
-
-    error.textContent = confirm === password ? "" : "Password do not match.";
-  });
-}
 
 // Add functionality for Manage Route & Vehicles Windows 
 function InitManageProfiles()
