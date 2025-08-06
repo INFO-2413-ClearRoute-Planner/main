@@ -5,6 +5,7 @@
 
 let apiBase = 'http://localhost:3000'; // Change if deployed
 let sessionToken = ''; // Global scope variable
+const locationGroup = L.layerGroup();
 
 // Store saved vehicles data for functionality
 let savedVehicles = [];
@@ -12,6 +13,7 @@ let savedVehicles = [];
 document.addEventListener('DOMContentLoaded', function() {
   InitAuthVerification();
   LoginUpdate();
+  locationGroup.addTo(map);
 });
 
 // Editing form submit buttons to prevent page reload 
@@ -144,6 +146,7 @@ async function LoginUpdate()
 
     await UpdateVehicles();
     await UpdateRouteHistory();
+    await UpdateLocations();
   }
   else
   {
@@ -250,6 +253,50 @@ function FormatRoute(data)
   })
 
   return allRoutes;
+}
+
+/* ============================================
+   LOCATION DATABASE
+   Manages Location & DB interactions
+   Saving Locations into DB is in routing.js
+   ============================================ */
+
+async function UpdateLocations()
+{
+  locationGroup.clearLayers();
+  const res = await fetch(`${apiBase}/userlocations`, {
+    headers: {
+      'Authorization': `Bearer ${sessionToken}`
+    }
+  });
+
+  let locations = await res.json();
+  locations.forEach(location => {
+    let marker = L.marker([location.Latitude, location.Longitude]).addTo(locationGroup);
+
+    marker.bindPopup(`
+      <div>
+        <h1>${location.Name}</h1>
+        <button class="popup-btn" onclick="DeleteLocation(${location.LocationID})">Delete</button>
+      </div>
+    `);
+  });
+}
+
+async function DeleteLocation(locationID)
+{
+  const res = await fetch(`${apiBase}/userlocations`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${sessionToken}`
+    },
+    body: JSON.stringify({
+      locationId: parseInt(locationID, 10)
+    })
+  });
+
+  UpdateLocations();
 }
 
 /* ============================================
@@ -421,53 +468,6 @@ function SelectVehicle(index)
 // ---------------------------------------->
 // RESERVE ----------------------------------->
 // ---------------------------------------->
-
-// Add functionality for Manage Route & Vehicles Windows 
-function InitManageProfiles()
-{
-  // Route buttons
-  const useRouteButtons = document.querySelectorAll('.use-route-btn');
-  const deleteRouteButtons = document.querySelectorAll('.delete-route-btn');
-  
-  // Vehicle buttons
-  const selectVehicleButtons = document.querySelectorAll('.select-vehicle-btn');
-  const editVehicleButtons = document.querySelectorAll('.edit-vehicle-btn');
-  const deleteVehicleButtons = document.querySelectorAll('.delete-vehicle-btn');
-  
-  // Route functionality
-  useRouteButtons.forEach((button, index) => {
-      button.addEventListener('click', function() {
-          // Get the height value for this route
-          const routeHeight = savedRoutes[index].height;
-          
-          // Populate the height input field
-          const heightInput = document.querySelector("input[name='heightIn']");
-          heightInput.value = routeHeight;
-          
-          // Close the popup
-          document.getElementById('saved-route-toggle').checked = false;
-          
-          // Optional: Show a confirmation message
-          alert(`Route "${savedRoutes[index].name}" selected with height limit: ${routeHeight}m`);
-      });
-  });
-  
-  deleteRouteButtons.forEach((button, index) => {
-      button.addEventListener('click', function() {
-          if (confirm(`Are you sure you want to delete "${savedRoutes[index].name}"?`)) {
-              // Remove the route from the DOM
-              const routeItem = button.closest('.route-item');
-              routeItem.remove();
-              
-              // Remove from saved routes array
-              savedRoutes.splice(index, 1);
-              
-              // Optional: Show confirmation message
-              alert('Route deleted successfully!');
-          }
-      });
-  });
-}
 
 function showOutput(data) 
 {

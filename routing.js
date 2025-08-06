@@ -106,6 +106,52 @@ L.Routing.CustomGraphHopper = L.Class.extend({
 });
 
 /* ============================================
+   Save Location Function
+	
+   ============================================ */
+
+async function saveLocation() 
+{
+	let name = prompt("Name of Location:");
+    let location = control.getWaypoints()[0];
+
+	//Send a post request to store coordinates in DB
+	const locationRes = await fetch(`${apiBase}/locations`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${sessionToken}`
+		},
+		body: JSON.stringify({ latitude: location.latLng.lat, longitude: location.latLng.lng })
+	});
+	
+	//Exit if something goes wrong
+	if (!locationRes.ok) {
+		// If token is expired/invalid, silently stop saving
+		alert(`Location ${i} failed: ${locationRes.status}`);
+		return;
+	}
+
+	//Parse response to get the new location ID
+	const locationData = await locationRes.json();
+	
+	const res = await fetch(`${apiBase}/userlocations`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${sessionToken}`
+    },
+    body: JSON.stringify({
+      locationId: parseInt(locationData.locationId, 10),
+      name: name
+    })
+  	});
+
+  	showOutput(await res.json());
+	UpdateLocations();
+}
+
+/* ============================================
    Save Current Route Function
 	This function saves the current route, eventually to the database, but for now just logs it
 	The parameter AutoRoute is a bool used to determine if the route is automatically generated or manually set
