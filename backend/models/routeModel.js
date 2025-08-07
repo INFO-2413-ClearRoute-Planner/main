@@ -16,6 +16,35 @@ async function getRoutesByUserId(userId) {
   `, [userId]);
   return rows;
 }
+//Delete a route by ID
+async function deleteRoute(userId, routeId) {
+  const conn = await pool.getConnection();
+
+  try {
+    await conn.beginTransaction();
+
+    const [rows] = await conn.execute(
+      'SELECT * FROM route WHERE RouteID = ? AND UserID = ?',
+      [routeId, userId]
+    );
+    if (rows.length === 0) {
+      await conn.rollback();
+      return false;
+    }
+    
+    await conn.execute('DELETE FROM routestops WHERE RouteID = ?', [routeId]);
+    await conn.execute('DELETE FROM route WHERE RouteID = ?', [routeId]);
+
+    await conn.commit();
+    return true;
+  } catch (err) {
+    await conn.rollback();
+    throw err;
+  } finally {
+    conn.release();
+  }
+}
+
 
 // create the base route
 
@@ -30,5 +59,6 @@ async function createRoute(userId, name) {
 
 module.exports = {
   getRoutesByUserId,
-  createRoute
+  createRoute,
+  deleteRoute
 };

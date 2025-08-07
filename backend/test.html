@@ -57,6 +57,11 @@
   <input id="start" placeholder="Start Location">
   <input id="end" placeholder="End Location">
   <button onclick="createRoute()">Create Route</button>
+  
+  <h2>Delete Route</h2>
+  <input id="deleteRouteId" type="number" placeholder="Route ID to delete">
+<button onclick="deleteRouteFromInput()">Delete Route</button>
+
 
   <h2>Get Routes</h2>
   <button onclick="getRoutes()">Fetch Routes</button>
@@ -109,6 +114,7 @@
       });
       const data = await res.json();
       token = data.token;
+        localStorage.setItem("token", token);// save token to localStorage
       document.getElementById('tokenDisplay').textContent = token;
       showOutput(data);
     }
@@ -139,6 +145,27 @@
 
   const data = await res.json();
   showOutput(data);
+}
+
+async function deleteRouteFromInput() {
+  const routeId = parseInt(document.getElementById("deleteRouteId").value, 10);
+  if (isNaN(routeId)) {
+    alert("Invalid Route ID");
+    return;
+  }
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`http://localhost:3000/routes/${routeId}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+  });
+
+  const data = await res.json();
+  console.log(res.status, data);
+  alert(`Route ${routeId} deleted: ${data.message || data.error}`);
 }
 
 
@@ -181,6 +208,24 @@ async function addVehicle() {
   }
 }
 
+
+async function deleteRouteFromInput() {
+  const routeId = parseInt(document.getElementById("deleteRouteId").value, 10);
+  if (isNaN(routeId)) {
+    alert("Invalid Route ID");
+    return;
+  }
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(`http://localhost:3000/routes/${routeId}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    },
+  });
+}
+
 async function deleteVehicle() {
   const vehicleId = parseInt(document.getElementById('deleteVehicleId').value, 10);
   if (isNaN(vehicleId)) {
@@ -202,6 +247,8 @@ async function deleteVehicle() {
     showOutput({ error: `Failed to delete vehicle: ${res.status} - ${err}` });
   }
 }
+
+
 
 async function editVehicle() {
 const vehicleId = parseInt(document.getElementById('editVehicleId').value, 10);

@@ -3,7 +3,8 @@ const express = require('express');
 const auth    = require('../middleware/auth');
 const {
   getRoutesByUserId,
-  createRoute
+  createRoute,
+  deleteRoute
 } = require('../models/routeModel');
 const { addStop } = require('../models/routeStopModel');
 
@@ -38,6 +39,30 @@ router.post('/', auth, async (req, res) => {
   } catch (err) {
     console.error('Failed to create route:', err);
     res.status(500).json({ error: 'Server error creating route' });
+  }
+});
+
+// DELETE /routes/:id
+router.delete('/:id', auth, async (req, res) => {
+  const routeId = parseInt(req.params.id, 10);
+
+  // Validate routeId
+  if (isNaN(routeId)) {
+    return res.status(400).json({ error: 'Invalid route ID' });
+  }
+
+  try {
+    // Check if route exists and belongs to user
+    const success = await deleteRoute(req.user.userId, routeId);
+    console.log(req.user.userId, routeId);
+    if (!success) {
+      return res.status(404).json({ error: 'Route not found or not authorized' });
+    }
+
+    res.json({ message: 'Route deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
