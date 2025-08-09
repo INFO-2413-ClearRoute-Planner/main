@@ -12,8 +12,8 @@ let savedVehicles = [];
 
 document.addEventListener('DOMContentLoaded', function() {
   InitAuthVerification();
-  LoginUpdate();
   locationGroup.addTo(map);
+  LoginUpdate();
 });
 
 // Editing form submit buttons to prevent page reload 
@@ -93,6 +93,8 @@ async function LogOut()
 {
   document.getElementById('user-logged-in').checked = false;
   document.getElementById('vehicle-list').innerHTML = ``;
+  document.getElementById('history-route-list').innerHTML = ``;
+  locationGroup.clearLayers();
   sessionToken = '';
 }
 
@@ -111,9 +113,7 @@ async function CreateAccount()
   });
 
   const data = await res.json();
-  showOutput(data);
-
-  document.getElementById('user-logged-in').checked = true;
+  // showOutput(data);
 }
 
 // Login Account
@@ -138,20 +138,18 @@ async function LoginAccount()
 // Update User Window based on sessionToken 
 async function LoginUpdate()
 {
-  //Checks if Login successfull
-  if(typeof sessionToken !== 'undefined' && sessionToken !== '')
-  {
-    await AccountUpdate();
-    document.getElementById('user-logged-in').checked = true;
-
-    await UpdateVehicles();
-    await UpdateRouteHistory();
-    await UpdateLocations();
-  }
-  else
+  if(!IsLoggedIn())
   {
     LogOut();
+    return;
   }
+
+  await AccountUpdate();
+  await UpdateVehicles();
+  await UpdateRouteHistory();
+  await UpdateLocations();
+
+  document.getElementById('user-logged-in').checked = true;
 }
 
 // Update User Informations
@@ -165,6 +163,15 @@ async function AccountUpdate()
 
   document.getElementById('user-info-name').innerHTML = data.Name;
   document.getElementById('user-info-email').innerHTML = data.Email;
+}
+
+// Checks whether user logged in
+function IsLoggedIn()
+{
+  let isLogged = (typeof sessionToken !== 'undefined' && sessionToken !== '');
+  // if(!isLogged) {alert("Not Logged In. Skipping.");}
+
+  return isLogged;
 }
 
 /* ============================================
@@ -202,35 +209,51 @@ async function UpdateRouteHistory()
           <h3>${route.name}</h3>
           <p>${directionsText}</p>
           <div class="route-actions">
-            <button class="use-route-btn" onclick="TestUseRoute('${route.name}')">Use Route</button>
+            <button class="use-route-btn" data-stops='${JSON.stringify(route.stops)}')">Use Route</button>
             <button class="delete-route-btn" onclick="DeleteRoute(${route.id})">Delete</button>
           </div>
       </div>`;
+
+      SetUseRouteButtons();
     })
   } catch (err) {
     showOutput({ error: err.message });
   }
 }
 
+function SetUseRouteButtons()
+{
+  document.querySelectorAll('.use-route-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const stops = JSON.parse(button.getAttribute('data-stops'));
+    const newWaypoints = [];
 
+    stops.forEach(stop => {
+      newWaypoints.push(L.latLng(stop.Lat, stop.Lon));
+    });
+
+    control.setWaypoints(newWaypoints);
+    document.getElementById('history-route-toggle').checked = false;
+  });
+});
+}
 
 async function DeleteRoute(routeID)
 {
-  // const res = await fetch(`${apiBase}/routes/${routeID}`, {
-  //   method: 'DELETE',
-  //   headers: {
-  //     Authorization: `Bearer ${sessionToken}`
-  //   }
-  // });
+  const res = await fetch(`${apiBase}/routes/${routeID}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${sessionToken}`
+    }
+  });
 
-  // if (res.status === 204) {
-  //   showOutput({ message: `Route ${routeID} deleted successfully.` });
-  //   UpdateRouteHistory();
-  // } else {
-  //   const err = await res.text();
-  //   showOutput({ error: `Failed to delete vehicle: ${res.status} - ${err}` });
-  // }
-
+  if (res.status === 200) {
+    // showOutput({ message: `Route ${routeID} deleted successfully.` });
+    UpdateRouteHistory();
+  } else {
+    const err = await res.text();
+    showOutput({ error: `Failed to delete route: ${res.status} - ${err}` });
+  }
 }
 
 function FormatRoute(data)
@@ -265,13 +288,16 @@ function FormatRoute(data)
 
 async function UpdateLocations()
 {
+  // Clear all markers
   locationGroup.clearLayers();
+
   const res = await fetch(`${apiBase}/userlocations`, {
     headers: {
       'Authorization': `Bearer ${sessionToken}`
     }
   });
 
+  // Set up map location markers
   let locations = await res.json();
   locations.forEach(location => {
     let marker = L.marker([location.Latitude, location.Longitude]).addTo(locationGroup);
@@ -280,9 +306,19 @@ async function UpdateLocations()
       <div>
         <h1>${location.Name}</h1>
         <button class="popup-btn" onclick="DeleteLocation(${location.LocationID})">Delete</button>
+        <button class="popup-btn" onclick="UseLocation(${location.Latitude}, ${location.Longitude})">Use As Start</button>
       </div>
     `);
   });
+}
+
+function UseLocation(Lat, Lon)
+{
+  let newWaypoints = [];
+  newWaypoints.push(L.latLng(Lat, Lon));
+  newWaypoints.push(control.getWaypoints()[1]);
+
+  control.setWaypoints(newWaypoints);
 }
 
 async function DeleteLocation(locationID)
@@ -337,6 +373,11 @@ async function UpdateVehicles()
 
 async function AddVehicle()
 {
+  if(!IsLoggedIn())
+  {
+    return;
+  }
+
   const res = await fetch(`${apiBase}/vehicles`, {
     method: 'POST',
     headers: {
@@ -351,7 +392,7 @@ async function AddVehicle()
     })
   });
 
-  const data = await res.json();
+  // const data = await res.json();
   UpdateVehicles(); 
 }
 
@@ -412,7 +453,7 @@ async function EditVehicle()
   });
 
   if (res.status === 204) {
-    showOutput({ message: `Vehicle ${editVehicleID} updated successfully.` });
+    // showOutput({ message: `Vehicle ${editVehicleID} updated successfully.` });
     UpdateVehicles();
   } else {
     const err = await res.text();
@@ -439,7 +480,7 @@ async function DeleteVehicle(vehicleIDStr, index)
   });
 
   if (res.status === 204) {
-    showOutput({ message: `Vehicle ${vehicleId} deleted successfully.` });
+    // showOutput({ message: `Vehicle ${vehicleId} deleted successfully.` });
     UpdateVehicles();
   } else {
     const err = await res.text();

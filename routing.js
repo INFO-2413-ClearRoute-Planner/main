@@ -112,6 +112,10 @@ L.Routing.CustomGraphHopper = L.Class.extend({
 
 async function saveLocation() 
 {
+	if(!IsLoggedIn()) {
+		return;
+	}
+
 	let name = prompt("Name of Location:");
     let location = control.getWaypoints()[0];
 
@@ -147,8 +151,8 @@ async function saveLocation()
     })
   	});
 
-  	showOutput(await res.json());
-	UpdateLocations();
+  	// showOutput(await res.json());
+	await UpdateLocations();
 }
 
 /* ============================================
@@ -171,8 +175,7 @@ async function saveLocation()
 // sessionToken is taken from database.js
 async function saveCurrentRoute(AutoRoute) {
 	//If no token, user is not signed in — skip DB save
-	if (!sessionToken) {
-		alert("Not signed in — skipping save to database.");
+	if (!IsLoggedIn()) {
 		return;
 	}
 
