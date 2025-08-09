@@ -11,6 +11,10 @@ const locationGroup = L.layerGroup();
 let savedVehicles = [];
 
 document.addEventListener('DOMContentLoaded', function() {
+
+  //Enables persistent session token
+  sessionToken = localStorage.getItem('cr_token') || '';
+
   InitAuthVerification();
   locationGroup.addTo(map);
   LoginUpdate();
@@ -131,6 +135,8 @@ async function LoginAccount()
 
   const data = await res.json();
   sessionToken = data.token;
+
+  if (sessionToken) localStorage.setItem('cr_token', sessionToken); // Store session token in localStorage
 
   LoginUpdate();
 }

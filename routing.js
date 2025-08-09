@@ -315,7 +315,7 @@ document.getElementById("form").addEventListener("submit", async function (e) {
 	let weightInput = document.querySelector("input[name='weightIn']").value;
 	let weight = parseFloat(weightInput);
 	let widthInput = document.querySelector("input[name='widthIn']").value;
-	let width = parseFloat(heightInput);
+	let width = parseFloat(widthInput);
 
 	//verify form inputs
 	if (isNaN(height)) {
