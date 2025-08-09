@@ -100,6 +100,8 @@ async function LogOut()
   document.getElementById('history-route-list').innerHTML = ``;
   locationGroup.clearLayers();
   sessionToken = '';
+  //clear session token from localStorage
+  localStorage.removeItem('cr_token');
 }
 
 // CreateAccount
