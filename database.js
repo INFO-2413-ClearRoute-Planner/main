@@ -7,6 +7,8 @@ let apiBase = 'http://localhost:3000'; // Change if deployed
 let sessionToken = ''; // Global scope variable
 const locationGroup = L.layerGroup();
 
+
+
 // Store saved vehicles data for functionality
 let savedVehicles = [];
 
@@ -18,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
   InitAuthVerification();
   locationGroup.addTo(map);
   LoginUpdate();
+  InitSaveRouteButtons();
 });
 
 // Editing form submit buttons to prevent page reload 
@@ -35,6 +38,33 @@ document.getElementById('save-route-form').addEventListener('submit', function(e
   event.preventDefault();
   saveCurrentRoute(false);
 });
+
+//save button init on the history route popup
+function InitSaveRouteButtons() {
+    //get toggle that will show/hide route history popup
+    const historyToggle = document.getElementById('history-route-toggle');
+    //get save current route button in the history route popup
+    const saveCurrentBtn = document.querySelector('#history-route-popup .add-new-btn');
+    if (saveCurrentBtn) {
+        saveCurrentBtn.addEventListener('click', async () => {
+          //save current route
+            await saveCurrentRoute(true);
+            //refresh route history list to show the new route
+            await UpdateRouteHistory();
+            //ensure route history toggle is checked to view popup
+            historyToggle.checked = true;
+        });
+    }
+
+    if (historyToggle) {
+      //whenever history toggle opened or closed
+        historyToggle.addEventListener('change', (e) => {
+          //refresh route history list
+            if (e.target.checked) UpdateRouteHistory();
+        });
+    }
+}
+
 
 // Add functionality for Authentication (Login & Register)
 function InitAuthVerification()
@@ -284,6 +314,9 @@ function FormatRoute(data)
     currentRouteName = stop.RouteName;
     currentRouteStops.push({Lon: stop.Longitude, Lat: stop.Latitude});
   })
+    //push the last route
+    allRoutes.push({ id: currentRouteID, name: currentRouteName, stops: currentRouteStops });
+
 
   return allRoutes;
 }
