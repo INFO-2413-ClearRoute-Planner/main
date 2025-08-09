@@ -402,6 +402,10 @@ async function AddVehicle()
 
   // const data = await res.json();
   UpdateVehicles(); 
+
+  //Close form popup
+  document.getElementById('add-vehicle-toggle').checked = false;
+
 }
 
 // Add Vehicle Item in the list
@@ -463,6 +467,9 @@ async function EditVehicle()
   if (res.status === 204) {
     // showOutput({ message: `Vehicle ${editVehicleID} updated successfully.` });
     UpdateVehicles();
+
+    //Close the edit popup
+    document.getElementById('edit-vehicle-toggle').checked = false;
   } else {
     const err = await res.text();
     showOutput({ error: `Failed to update vehicle: ${res.status} - ${err}` });
