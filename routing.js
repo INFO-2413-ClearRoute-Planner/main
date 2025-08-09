@@ -248,7 +248,8 @@ async function saveCurrentRoute(AutoRoute) {
 		alert(`Route saved with ID: ${routeData.routeId}`);
 	} catch (err) {
 		alert("Route creation error:", err);
-	}
+	}	  
+	UpdateRouteHistory();
 }	
 
 /* ============================================
@@ -366,3 +367,9 @@ document.getElementById("form").addEventListener("submit", async function (e) {
 
 	await saveCurrentRoute(true);
 });
+
+async function TestUseRoute(routeName)
+{
+  // This function is a placeholder for testing route usage
+  alert("Using route:" + routeName);
+}

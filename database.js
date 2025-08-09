@@ -202,7 +202,7 @@ async function UpdateRouteHistory()
           <h3>${route.name}</h3>
           <p>${directionsText}</p>
           <div class="route-actions">
-            <button class="use-route-btn">Use Route</button>
+            <button class="use-route-btn" onclick="TestUseRoute('${route.name}')">Use Route</button>
             <button class="delete-route-btn" onclick="DeleteRoute(${route.id})">Delete</button>
           </div>
       </div>`;
@@ -211,6 +211,8 @@ async function UpdateRouteHistory()
     showOutput({ error: err.message });
   }
 }
+
+
 
 async function DeleteRoute(routeID)
 {
