@@ -197,7 +197,7 @@ if (typeof module !== undefined) module.exports = polyline;
 
 	L.Routing.GraphHopper = L.Evented.extend({
 		options: {
-			// serviceUrl: 'https://graphhopper.com/api/1/route',
+			serviceUrl: 'https://graphhopper.com/api/1/route',
 			timeout: 30 * 1000,
 			urlParameters: {}
 		},
