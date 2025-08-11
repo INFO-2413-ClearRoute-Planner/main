@@ -50,8 +50,6 @@ function InitSaveRouteButtons() {
           //save current route
             await saveCurrentRoute(true);
             //refresh route history list to show the new route
-            await UpdateRouteHistory();
-            //ensure route history toggle is checked to view popup
             historyToggle.checked = true;
         });
     }
@@ -221,7 +219,7 @@ function IsLoggedIn()
 async function UpdateRouteHistory()
 {
   document.getElementById('history-route-list').innerHTML = ``;
-
+  
   try {
     const res = await fetch(`${apiBase}/routes`, {
       headers: { 'Authorization': `Bearer ${sessionToken}` }
