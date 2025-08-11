@@ -7,13 +7,20 @@ let apiBase = 'http://localhost:3000'; // Change if deployed
 let sessionToken = ''; // Global scope variable
 const locationGroup = L.layerGroup();
 
+
+
 // Store saved vehicles data for functionality
 let savedVehicles = [];
 
 document.addEventListener('DOMContentLoaded', function() {
+
+  //Enables persistent session token
+  sessionToken = localStorage.getItem('cr_token') || '';
+
   InitAuthVerification();
   locationGroup.addTo(map);
   LoginUpdate();
+  InitSaveRouteButtons();
 });
 
 // Editing form submit buttons to prevent page reload 
@@ -31,6 +38,33 @@ document.getElementById('save-route-form').addEventListener('submit', function(e
   event.preventDefault();
   saveCurrentRoute(false);
 });
+
+//save button init on the history route popup
+function InitSaveRouteButtons() {
+    //get toggle that will show/hide route history popup
+    const historyToggle = document.getElementById('history-route-toggle');
+    //get save current route button in the history route popup
+    const saveCurrentBtn = document.querySelector('#history-route-popup .add-new-btn');
+    if (saveCurrentBtn) {
+        saveCurrentBtn.addEventListener('click', async () => {
+          //save current route
+            await saveCurrentRoute(true);
+            //refresh route history list to show the new route
+            await UpdateRouteHistory();
+            //ensure route history toggle is checked to view popup
+            historyToggle.checked = true;
+        });
+    }
+
+    if (historyToggle) {
+      //whenever history toggle opened or closed
+        historyToggle.addEventListener('change', (e) => {
+          //refresh route history list
+            if (e.target.checked) UpdateRouteHistory();
+        });
+    }
+}
+
 
 // Add functionality for Authentication (Login & Register)
 function InitAuthVerification()
@@ -96,6 +130,8 @@ async function LogOut()
   document.getElementById('history-route-list').innerHTML = ``;
   locationGroup.clearLayers();
   sessionToken = '';
+  //clear session token from localStorage
+  localStorage.removeItem('cr_token');
 }
 
 // CreateAccount
@@ -131,6 +167,8 @@ async function LoginAccount()
 
   const data = await res.json();
   sessionToken = data.token;
+
+  if (sessionToken) localStorage.setItem('cr_token', sessionToken); // Store session token in localStorage
 
   LoginUpdate();
 }
@@ -276,6 +314,9 @@ function FormatRoute(data)
     currentRouteName = stop.RouteName;
     currentRouteStops.push({Lon: stop.Longitude, Lat: stop.Latitude});
   })
+    //push the last route
+    allRoutes.push({ id: currentRouteID, name: currentRouteName, stops: currentRouteStops });
+
 
   return allRoutes;
 }
@@ -394,6 +435,10 @@ async function AddVehicle()
 
   // const data = await res.json();
   UpdateVehicles(); 
+
+  //Close form popup
+  document.getElementById('add-vehicle-toggle').checked = false;
+
 }
 
 // Add Vehicle Item in the list
@@ -455,6 +500,9 @@ async function EditVehicle()
   if (res.status === 204) {
     // showOutput({ message: `Vehicle ${editVehicleID} updated successfully.` });
     UpdateVehicles();
+
+    //Close the edit popup
+    document.getElementById('edit-vehicle-toggle').checked = false;
   } else {
     const err = await res.text();
     showOutput({ error: `Failed to update vehicle: ${res.status} - ${err}` });

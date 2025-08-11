@@ -184,7 +184,7 @@ async function saveCurrentRoute(AutoRoute) {
 	let routeName = "";
 	if (AutoRoute == true) {
 		// If AutoRoute is true, generate a name based on the current date and time
-		routeName = new Date();
+		routeName = new Date().toLocaleString();
 	} else {
 		// If AutoRoute is false, get the name from the input field(placeholder for now)--
 		routeName = document.getElementById('route-name').value; // Replace with actual input field value
@@ -249,6 +249,19 @@ async function saveCurrentRoute(AutoRoute) {
 
 		const routeData = await routeRes.json();
 		alert(`Route saved with ID: ${routeData.routeId}`);
+
+		// Update route history UI if the function is in scope
+		if (typeof UpdateRouteHistory === 'function') {
+      	await UpdateRouteHistory(); 
+    	}
+		//Uncheck the "Save Route" checkbox to clsoe popup
+    	const saveToggle = document.getElementById('save-route-toggle'); 
+    	if (saveToggle) saveToggle.checked = false; 
+		//Clear the input field
+    	const rn = document.getElementById('route-name'); 
+    	if (rn) rn.value = ''; 
+		
+
 	} catch (err) {
 		alert("Route creation error:", err);
 	}	  
@@ -316,7 +329,7 @@ document.getElementById("form").addEventListener("submit", async function (e) {
 	let weightInput = document.querySelector("input[name='weightIn']").value;
 	let weight = parseFloat(weightInput);
 	let widthInput = document.querySelector("input[name='widthIn']").value;
-	let width = parseFloat(heightInput);
+	let width = parseFloat(widthInput);
 
 	//verify form inputs
 	if (isNaN(height)) {
