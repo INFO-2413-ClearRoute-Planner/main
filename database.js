@@ -258,7 +258,7 @@ async function UpdateRouteHistory()
       SetUseRouteButtons();
     })
   } catch (err) {
-    showOutput({ error: err.message });
+    // showOutput({ error: err.message });
   }
 }
 

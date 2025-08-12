@@ -152,6 +152,8 @@ async function saveLocation()
 
   	// showOutput(await res.json());
 	await UpdateLocations();
+
+	document.getElementById("save-location-toggle").checked = false;
 }
 
 /* ============================================
