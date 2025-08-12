@@ -339,6 +339,7 @@ body {
 
 /* Show popup when corresponding checkbox is checked */
 #history-route-toggle:checked ~ #history-route-popup,
+#save-location-toggle:checked ~ #save-location-popup,
 #save-route-toggle:checked ~ #save-route-popup,
 #vehicles-toggle:checked ~ #vehicles-popup,
 #add-vehicle-toggle:checked ~ #add-vehicle-popup,
@@ -369,6 +370,7 @@ body {
 
 /* Animate popup content when shown - slide in from top */
 #history-route-toggle:checked ~ #history-route-popup .popup-content,
+#save-location-toggle:checked ~ #save-location-popup .popup-content,
 #save-route-toggle:checked ~ #save-route-popup .popup-content,
 #vehicles-toggle:checked ~ #vehicles-popup .popup-content,
 #add-vehicle-toggle:checked ~ #add-vehicle-popup .popup-content,

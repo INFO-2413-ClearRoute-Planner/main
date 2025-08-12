@@ -7,8 +7,6 @@ let apiBase = 'http://localhost:3000'; // Change if deployed
 let sessionToken = ''; // Global scope variable
 const locationGroup = L.layerGroup();
 
-
-
 // Store saved vehicles data for functionality
 let savedVehicles = [];
 
@@ -136,6 +134,9 @@ async function LogOut()
 // NOTE: they are added on HTML onclick directly
 async function CreateAccount()
 {
+  let email = document.getElementById('registerEmail').value;
+  let pass = document.getElementById('registerPassword').value;
+
   const res = await fetch(`${apiBase}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -148,6 +149,10 @@ async function CreateAccount()
 
   const data = await res.json();
   // showOutput(data);
+
+  document.getElementById('login-email').value = email;
+  document.getElementById('login-password').value = pass;
+  LoginAccount();
 }
 
 // Login Account

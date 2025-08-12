@@ -116,7 +116,6 @@ async function saveLocation()
 		return;
 	}
 
-	let name = prompt("Name of Location:");
     let location = control.getWaypoints()[0];
 
 	//Send a post request to store coordinates in DB
@@ -147,7 +146,7 @@ async function saveLocation()
     },
     body: JSON.stringify({
       locationId: parseInt(locationData.locationId, 10),
-      name: name
+      name: document.getElementById('location-name').value
     })
   	});
 
