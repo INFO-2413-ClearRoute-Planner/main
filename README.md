@@ -1,4 +1,3 @@
-# ClearRoute-Planner
 # Installation
 ## 1. GraphHopper
 
