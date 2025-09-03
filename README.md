@@ -1,4 +1,5 @@
-# CLearRoute-Planner
+# ClearRoute-Planner
+# Installation
 ## 1. GraphHopper
 
 Purpose: Get GraphHopper installed and running with British Columbia map data. This is the routing engine 
