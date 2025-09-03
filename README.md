@@ -2,7 +2,7 @@
 ## 1. GraphHopper
 
 Purpose: Get GraphHopper installed and running with British Columbia map data. This is the routing engine 
-# 1.1 GraphHopper dependencies (Java)
+### 1.1 GraphHopper dependencies (Java)
 
 To install GraphHopper locally, you need a version of Java >= 17
 
@@ -14,19 +14,19 @@ To install GraphHopper locally, you need a version of Java >= 17
 
     Once download is completed, run the installer and follow the instructions to complete the installation
 
-# 1.2 Download the british-columbia-latest.osm.pbf map data
+### 1.2 Download the british-columbia-latest.osm.pbf map data
 
     Click this link to download the map data https://download.geofabrik.de/north-america/canada/british-columbia-latest.osm.pbf 
 
     Place the file next to your main folder so its address is ClearRoutePlanner\british-columbia-latest.osm.pbf
 
-# 1.3 Download the GraphHopper jar file
+### 1.3 Download the GraphHopper jar file
 
     Click this link to download graphhopper-web-10.0.jar https://repo1.maven.org/maven2/com/graphhopper/graphhopper-web/10.0/graphhopper-web-10.0.jar 
 
     Place the file in ClearRoutePlanner\main\GraphHopper\data. This will be in the same folder as our config.yml file
 
-# 1.4 Run GraphHopper
+### 1.4 Run GraphHopper
 
     To run GraphHopper, first open Windows PowerShell
 
@@ -45,19 +45,19 @@ To install GraphHopper locally, you need a version of Java >= 17
 ## 2. Leaflet Routing Machine (LRM)
 
 Purpose: Get the Leaflet Routing Machine library installed and configured. This is what displays our map on the webpage
-# 2.1 Download LRM
+### 2.1 Download LRM
 
     To download, go to this link and select the v3.2.12 .zip file https://github.com/perliedman/leaflet-routing-machine/releases 
 
     Extract the file and place leaflet-routing-machine-3.2.12 next to the data folder in ClearRoutePlanner\main\GraphHopper
 
-# 2.2 Download LRM-GraphHopper
+### 2.2 Download LRM-GraphHopper
 
     This file is needed to connect LRM to GraphHopper, to download it, go to this link, right click and select save as, which should download the file as a .js https://www.liedman.net/lrm-graphhopper/dist/lrm-graphhopper-1.2.0.js 
 
     Once downloaded, this file needs to be placed in the folder ClearRoutePlanner\main\GraphHopper\leaflet-routing-machine-3.2.12
 
-# 2.3 Modifying LRM
+### 2.3 Modifying LRM
 
     In order to make LRM go to a local instance of GraphHopper rather than an online OSRM service, some code must be changed in the leaflet-routing-machine.js file. You can find this file at ClearRoutePlanner\main\GraphHopper\leaflet-routing-machine-3.2.12\dist
 
@@ -82,7 +82,7 @@ profile: 'truck1',
 Purpose:
 
 Focuses on getting our Node.js/Express backend, connected to a MySQL database, and backend API running and verified.
-# 3.1 Prerequisites
+### 3.1 Prerequisites
 
 NOTE on dependencies:
 
@@ -110,7 +110,7 @@ Manual Install:
 
     Get cors: https://www.npmjs.com/package/cors 
 
-# 3.2 Configure Environment Variables
+### 3.2 Configure Environment Variables
 
 In ./main/backend, create a file named **.env** (same directory where index.js runs). copy and paste the following text:
 
@@ -126,7 +126,7 @@ JWT_SECRET=PgX1ggeD8HYCfwGCr0m8lWOEffTBIcOAapnyPZr09hvrkpwGdia5dRxq9HACN1OxGTaWX
 
 PORT=3000
 
-# 3.3 Start the Backend Server
+### 3.3 Start the Backend Server
 
 From ./main/backend, run:
 
@@ -134,7 +134,7 @@ node index.js
 
 You should see something like “Server listening on port 3000”. Keep this terminal open.
 
-# 3.4 Troubleshooting
+### 3.4 Troubleshooting
 
 A) Error: Access denied for user ''@'localhost' (using password: NO)
 
